@@ -3,36 +3,37 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>時間割 — TestTrack</title>
+<title>TestTrack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
 /* ===== Variables ===== */
 :root {
-  --bg:        #0c0e14;
-  --surface:   #141720;
-  --surface2:  #1c2030;
-  --surface3:  #242840;
-  --border:    #2a2f45;
-  --border2:   #353b55;
-  --text:      #dde1f0;
-  --muted:     #6b7291;
-  --accent:    #5b8af0;
-  --accent2:   #3d6fe0;
-  --accent-bg: rgba(91,138,240,.12);
+  --bg:          #0c0e14;
+  --surface:     #141720;
+  --surface2:    #1c2030;
+  --surface3:    #242840;
+  --border:      #2a2f45;
+  --border2:     #353b55;
+  --text:        #dde1f0;
+  --muted:       #6b7291;
+  --accent:      #5b8af0;
+  --accent2:     #3d6fe0;
+  --accent-bg:   rgba(91,138,240,.12);
   --accent-glow: rgba(91,138,240,.28);
-  --green:     #3ecf8e;
-  --green-bg:  rgba(62,207,142,.12);
-  --red:       #f06b6b;
-  --red-bg:    rgba(240,107,107,.1);
-  --yellow:    #f0c46b;
-  --yellow-bg: rgba(240,196,107,.1);
+  --green:       #3ecf8e;
+  --green-bg:    rgba(62,207,142,.12);
+  --red:         #f06b6b;
+  --red-bg:      rgba(240,107,107,.1);
+  --yellow:      #f0c46b;
+  --yellow-bg:   rgba(240,196,107,.1);
 
-  --r:    10px;
-  --r-sm: 6px;
+  --r:      10px;
+  --r-sm:   6px;
+  --r-lg:   14px;
   --shadow: 0 8px 32px rgba(0,0,0,.5);
-  --trans: 160ms cubic-bezier(.4,0,.2,1);
+  --trans:  160ms cubic-bezier(.4,0,.2,1);
 }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { font-size:15px; }
@@ -44,8 +45,8 @@ body {
 body::before {
   content:''; position:fixed; inset:0;
   background:
-    radial-gradient(ellipse 800px 500px at 15% 0%,rgba(91,138,240,.07) 0%,transparent 70%),
-    radial-gradient(ellipse 500px 400px at 85% 90%,rgba(62,207,142,.05) 0%,transparent 70%);
+    radial-gradient(ellipse 900px 500px at 10% 0%,rgba(91,138,240,.07) 0%,transparent 70%),
+    radial-gradient(ellipse 500px 400px at 88% 90%,rgba(62,207,142,.05) 0%,transparent 70%);
   pointer-events:none; z-index:0;
 }
 
@@ -56,7 +57,7 @@ body::before {
 /* ===== Header ===== */
 .page-header {
   display:flex; align-items:center; gap:10px;
-  padding:28px 20px 16px; max-width:1100px; margin:0 auto;
+  padding:26px 20px 14px; max-width:1100px; margin:0 auto;
   flex-wrap:wrap;
 }
 .back-btn {
@@ -64,60 +65,172 @@ body::before {
   width:36px; height:36px; border-radius:50%;
   border:1px solid var(--border2); background:var(--surface);
   color:var(--muted); font-size:17px; cursor:pointer;
-  transition:var(--trans); text-decoration:none; flex-shrink:0;
+  transition:var(--trans); flex-shrink:0;
 }
 .back-btn:hover { background:var(--surface2); color:var(--text); border-color:var(--accent); }
 .page-title {
-  font-family:"Kaisei Decol",serif; font-size:22px; font-weight:700; letter-spacing:.02em;
+  font-family:"Kaisei Decol",serif; font-size:21px; font-weight:700; letter-spacing:.02em;
 }
 .page-title span { color:var(--accent); }
-.header-right {
-  margin-left:auto; display:flex; gap:6px; align-items:center; flex-wrap:wrap;
-}
+.header-right { margin-left:auto; display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
 
 /* ===== Button ===== */
 .btn {
   display:inline-flex; align-items:center; justify-content:center; gap:5px;
   padding:8px 16px; border-radius:var(--r-sm); font-family:inherit;
   font-size:13px; font-weight:700; cursor:pointer; transition:var(--trans);
-  border:none; outline:none; letter-spacing:.03em; white-space:nowrap;
+  border:none; outline:none; letter-spacing:.02em; white-space:nowrap;
 }
-.btn:disabled { opacity:.45; cursor:not-allowed; }
 .btn-primary { background:var(--accent); color:#fff; box-shadow:0 4px 16px rgba(91,138,240,.35); }
-.btn-primary:not(:disabled):hover { background:var(--accent2); box-shadow:0 6px 20px rgba(91,138,240,.5); }
+.btn-primary:hover { background:var(--accent2); box-shadow:0 6px 22px rgba(91,138,240,.5); }
 .btn-ghost { background:var(--surface2); border:1px solid var(--border2); color:var(--muted); }
-.btn-ghost:not(:disabled):hover { color:var(--text); background:var(--surface3); border-color:var(--border2); }
-.btn-danger { background:var(--red-bg); border:1px solid var(--red); color:var(--red); }
-.btn-danger:not(:disabled):hover { background:var(--red); color:#fff; }
+.btn-ghost:hover { color:var(--text); background:var(--surface3); }
 .btn-sm { padding:5px 11px; font-size:12px; }
 
-/* ===== Timetable ===== */
-.tt-wrap {
+/* ===========================
+   PAGE: HOME — Exam list
+   =========================== */
+.home-wrap { max-width:720px; margin:0 auto; padding:0 16px 80px; }
+
+/* stats bar */
+.stats-bar {
+  display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap;
+}
+.stat-pill {
+  display:flex; align-items:center; gap:6px;
+  padding:6px 14px; border-radius:999px;
+  background:var(--surface2); border:1px solid var(--border);
+  font-size:12px; font-family:"JetBrains Mono",monospace;
+}
+.stat-pill .val { color:var(--text); font-weight:700; }
+.stat-pill .lbl { color:var(--muted); }
+
+/* section dividers */
+.exam-section { margin-bottom:28px; }
+.section-label {
+  font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted);
+  margin-bottom:12px; display:flex; align-items:center; gap:10px;
+}
+.section-label::after {
+  content:''; flex:1; height:1px; background:var(--border);
+}
+
+/* date group */
+.date-group { margin-bottom:16px; }
+.date-header {
+  display:flex; align-items:center; gap:10px; margin-bottom:8px;
+}
+.date-label {
+  font-family:"JetBrains Mono",monospace; font-size:13px; font-weight:700;
+  color:var(--text);
+}
+.date-wd {
+  font-size:11px; color:var(--muted);
+}
+.days-badge {
+  font-size:11px; font-family:"JetBrains Mono",monospace; font-weight:700;
+  padding:2px 9px; border-radius:999px; margin-left:auto;
+}
+.days-badge.today   { background:rgba(91,138,240,.2); border:1px solid rgba(91,138,240,.5); color:var(--accent); }
+.days-badge.soon    { background:rgba(240,107,107,.15); border:1px solid rgba(240,107,107,.4); color:var(--red); }
+.days-badge.week    { background:rgba(240,196,107,.12); border:1px solid rgba(240,196,107,.4); color:var(--yellow); }
+.days-badge.normal  { background:var(--surface2); border:1px solid var(--border2); color:var(--muted); }
+
+/* exam card */
+.exam-row {
+  display:flex; align-items:stretch; gap:0;
+  border-radius:var(--r); overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--surface);
+  margin-bottom:6px;
+  transition:border-color var(--trans), transform var(--trans), box-shadow var(--trans);
+  animation:fadeUp .22s ease both;
+}
+.exam-row:hover {
+  border-color:var(--subject-color, var(--border2));
+  transform:translateX(2px);
+  box-shadow:0 4px 18px rgba(0,0,0,.4);
+}
+.exam-row-bar {
+  width:4px; flex-shrink:0;
+  background:var(--subject-color, var(--accent));
+}
+.exam-row-body {
+  flex:1; padding:12px 14px; display:flex; align-items:center; gap:12px; min-width:0;
+}
+.exam-row-type {
+  font-size:11px; padding:3px 9px; border-radius:999px;
+  font-family:"JetBrains Mono",monospace; font-weight:500;
+  flex-shrink:0; white-space:nowrap;
+}
+.exam-row-type.中間テスト { background:rgba(91,138,240,.2);  border:1px solid rgba(91,138,240,.4);  color:#5b8af0; }
+.exam-row-type.期末テスト { background:rgba(240,107,107,.2); border:1px solid rgba(240,107,107,.4); color:#f06b6b; }
+.exam-row-type.小テスト   { background:rgba(62,207,142,.2);  border:1px solid rgba(62,207,142,.4);  color:#3ecf8e; }
+.exam-row-type.定期テスト { background:rgba(240,196,107,.2); border:1px solid rgba(240,196,107,.4); color:#f0c46b; }
+.exam-row-info { flex:1; min-width:0; }
+.exam-row-subject {
+  font-size:14px; font-weight:700; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
+}
+.exam-row-meta {
+  font-size:11px; color:var(--muted); margin-top:2px;
+  font-family:"JetBrains Mono",monospace;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.exam-row-actions {
+  display:flex; gap:6px; flex-shrink:0; padding-right:12px; align-items:center;
+}
+.row-edit-btn, .row-del-btn {
+  padding:4px 10px; border-radius:var(--r-sm);
+  font-size:11px; cursor:pointer; transition:var(--trans); font-family:inherit; font-weight:500;
+  border:1px solid transparent;
+}
+.row-edit-btn {
+  background:var(--accent-bg); border-color:var(--accent-glow); color:var(--accent);
+}
+.row-edit-btn:hover { background:var(--accent); color:#fff; }
+.row-del-btn {
+  background:var(--red-bg); border-color:var(--red); color:var(--red);
+}
+.row-del-btn:hover { background:var(--red); color:#fff; }
+
+/* toggle past */
+.toggle-past-btn {
+  width:100%; padding:10px; text-align:center;
+  background:var(--surface2); border:1px solid var(--border); border-radius:var(--r);
+  color:var(--muted); font-size:12px; cursor:pointer; transition:var(--trans); font-family:inherit;
+}
+.toggle-past-btn:hover { background:var(--surface3); color:var(--text); }
+.past-section { margin-top:16px; opacity:.55; }
+.past-section .exam-row:hover { opacity:.8; }
+
+/* empty */
+.empty-state {
+  text-align:center; padding:70px 24px;
+  color:var(--muted); line-height:2;
+}
+.empty-icon { font-size:44px; margin-bottom:14px; }
+.empty-title { font-family:"Kaisei Decol",serif; font-size:19px; color:var(--text); margin-bottom:8px; }
+
+/* ===========================
+   PAGE: SELECT — Timetable grid
+   =========================== */
+.select-wrap {
   max-width:1100px; margin:0 auto; padding:0 16px 80px;
   overflow-x:auto;
 }
-
-/* date strip */
-.date-strip {
-  display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap; align-items:center;
-}
-.date-chip {
-  font-size:11px; font-family:"JetBrains Mono",monospace;
-  padding:4px 10px; border-radius:999px;
-  background:var(--surface2); border:1px solid var(--border2); color:var(--muted);
-}
-.date-chip strong { color:var(--text); }
-.strip-summary {
-  font-size:11px; color:var(--muted); margin-left:auto;
-  font-family:"JetBrains Mono",monospace;
+.select-hint {
+  font-size:13px; color:var(--muted); margin-bottom:16px;
+  padding:10px 14px; background:var(--accent-bg);
+  border:1px solid var(--accent-glow); border-radius:var(--r-sm);
+  display:flex; align-items:center; gap:8px;
 }
 
-/* grid */
 .tt-grid {
   display:grid;
   grid-template-columns: 52px repeat(5, 1fr);
-  gap:6px;
-  min-width:480px;
+  gap:6px; min-width:480px;
 }
 .tt-col-head {
   text-align:center; padding:10px 4px;
@@ -130,18 +243,15 @@ body::before {
 .tt-col-head .wday { font-size:18px; }
 .tt-period {
   display:flex; align-items:center; justify-content:center;
-  font-family:"JetBrains Mono",monospace;
-  font-size:12px; color:var(--muted);
+  font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--muted);
 }
 .tt-cell {
   border-radius:var(--r); border:1px solid var(--border);
-  background:var(--surface2);
-  min-height:80px; position:relative; overflow:hidden;
+  background:var(--surface2); min-height:80px;
+  position:relative; overflow:hidden;
   transition:border-color var(--trans), transform var(--trans), box-shadow var(--trans);
 }
-.tt-cell.empty {
-  background:transparent; border-color:var(--border); opacity:.35;
-}
+.tt-cell.empty { background:transparent; border-color:var(--border); opacity:.3; }
 .tt-cell.has-subject {
   cursor:pointer;
   border-color:var(--subject-color, var(--accent));
@@ -149,15 +259,15 @@ body::before {
 }
 .tt-cell.has-subject::before {
   content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
-  background:var(--subject-color, var(--accent));
-  border-radius:3px 0 0 3px;
+  background:var(--subject-color, var(--accent)); border-radius:3px 0 0 3px;
 }
 .tt-cell.has-subject:hover {
-  transform:translateY(-2px);
-  box-shadow:0 6px 24px rgba(0,0,0,.4);
+  transform:translateY(-3px) scale(1.01);
+  box-shadow:0 8px 28px rgba(0,0,0,.5);
   background:var(--surface3);
+  z-index:2;
 }
-.tt-cell.has-subject:active { transform:translateY(0); }
+.tt-cell.has-subject:active { transform:translateY(0) scale(1); }
 .cell-inner { padding:10px 10px 10px 14px; height:100%; display:flex; flex-direction:column; gap:4px; }
 .cell-name { font-size:13px; font-weight:700; line-height:1.3; }
 .cell-meta { font-size:10px; color:var(--muted); font-family:"JetBrains Mono",monospace; }
@@ -168,8 +278,7 @@ body::before {
   padding:2px 7px; border-radius:999px;
   background:var(--subject-color-bg, var(--accent-bg));
   border:1px solid var(--subject-color-border, var(--accent-glow));
-  color:var(--subject-color, var(--accent));
-  width:fit-content;
+  color:var(--subject-color, var(--accent)); width:fit-content;
 }
 .cell-exam-dot {
   position:absolute; top:8px; right:8px;
@@ -177,15 +286,9 @@ body::before {
   background:var(--yellow); box-shadow:0 0 6px rgba(240,196,107,.6);
 }
 
-/* ===== Empty state ===== */
-.empty-state {
-  text-align:center; padding:80px 24px;
-  color:var(--muted); line-height:2;
-}
-.empty-icon { font-size:48px; margin-bottom:16px; }
-.empty-title { font-family:"Kaisei Decol",serif; font-size:20px; color:var(--text); margin-bottom:8px; }
-
-/* ===== Exam input page ===== */
+/* ===========================
+   PAGE: EXAM — Input form
+   =========================== */
 .exam-wrap { max-width:680px; margin:0 auto; padding:0 20px 80px; }
 .subject-info-card {
   background:var(--surface); border:1px solid var(--border);
@@ -246,10 +349,11 @@ textarea { resize:vertical; min-height:72px; }
 }
 .type-btn:hover { background:var(--surface3); color:var(--text); }
 .type-btn.active { background:var(--accent-bg); border-color:var(--accent); color:var(--accent); }
+.form-actions { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
 
-/* exam list */
+/* inline exam list in form */
 .exam-list { display:flex; flex-direction:column; gap:8px; }
-.exam-card {
+.ec-card {
   background:var(--surface2); border:1px solid var(--border);
   border-radius:var(--r); padding:12px 14px;
   display:flex; align-items:center; gap:10px; flex-wrap:wrap;
@@ -267,20 +371,18 @@ textarea { resize:vertical; min-height:72px; }
 .ec-date { font-size:13px; font-weight:700; font-family:"JetBrains Mono",monospace; }
 .ec-meta { font-size:11px; color:var(--muted); margin-top:2px; }
 .ec-del {
-  padding:5px 10px; border-radius:var(--r-sm);
+  padding:5px 10px; border-radius:var(--r-sm); flex-shrink:0;
   background:var(--red-bg); border:1px solid var(--red); color:var(--red);
-  font-size:12px; cursor:pointer; transition:var(--trans); font-family:inherit; flex-shrink:0;
+  font-size:12px; cursor:pointer; transition:var(--trans); font-family:inherit;
 }
 .ec-del:hover { background:var(--red); color:#fff; }
-.form-actions { display:flex; gap:8px; margin-top:18px; flex-wrap:wrap; }
 
 /* ===== Modal ===== */
 .modal-overlay {
   position:fixed; inset:0; z-index:200;
   background:rgba(0,0,0,.72); backdrop-filter:blur(5px);
   display:flex; align-items:center; justify-content:center; padding:16px;
-  opacity:0; pointer-events:none;
-  transition:opacity .2s ease;
+  opacity:0; pointer-events:none; transition:opacity .2s ease;
 }
 .modal-overlay.active { opacity:1; pointer-events:all; }
 .modal-box {
@@ -295,12 +397,9 @@ textarea { resize:vertical; min-height:72px; }
   font-family:"Kaisei Decol",serif; font-size:17px; margin-bottom:14px;
   display:flex; align-items:center; gap:8px;
 }
-.modal-title .modal-icon { font-size:20px; }
 .modal-body { font-size:13px; color:var(--muted); line-height:1.8; margin-bottom:20px; }
 .modal-body strong { color:var(--text); }
-.modal-stat-row {
-  display:flex; gap:10px; margin:12px 0;
-}
+.modal-stat-row { display:flex; gap:10px; margin:12px 0; }
 .modal-stat {
   flex:1; background:var(--surface2); border:1px solid var(--border);
   border-radius:var(--r-sm); padding:10px 14px; text-align:center;
@@ -310,25 +409,10 @@ textarea { resize:vertical; min-height:72px; }
 .modal-warn {
   background:var(--yellow-bg); border:1px solid rgba(240,196,107,.3);
   border-radius:var(--r-sm); padding:10px 14px;
-  font-size:12px; color:var(--yellow); line-height:1.6;
-  margin-bottom:16px;
+  font-size:12px; color:var(--yellow); line-height:1.6; margin-bottom:16px;
 }
+.modal-divider { border:none; border-top:1px solid var(--border); margin:0 0 16px; }
 .modal-actions { display:flex; gap:8px; flex-wrap:wrap; }
-.modal-divider {
-  border:none; border-top:1px solid var(--border);
-  margin:0 0 16px;
-}
-
-/* ===== Import/Export toolbar ===== */
-.data-toolbar {
-  display:flex; gap:6px; align-items:center;
-  padding:10px 16px; max-width:1100px; margin:0 auto 8px;
-  background:var(--surface2); border-radius:var(--r-sm);
-  border:1px solid var(--border);
-}
-.data-toolbar-label {
-  font-size:11px; color:var(--muted); margin-right:4px; font-family:"JetBrains Mono",monospace;
-}
 
 /* ===== Toast ===== */
 .toast {
@@ -354,7 +438,8 @@ textarea { resize:vertical; min-height:72px; }
   from { opacity:0; transform:scale(.96) translateY(10px); }
   to   { opacity:1; transform:scale(1) translateY(0); }
 }
-.tt-cell.has-subject { animation:popIn .28s ease both; }
+.tt-cell.has-subject { animation:popIn .26s ease both; }
+.exam-row { animation:fadeUp .22s ease both; }
 
 /* ===== Responsive ===== */
 @media (max-width:600px) {
@@ -363,40 +448,52 @@ textarea { resize:vertical; min-height:72px; }
   .cell-name { font-size:11px; }
   .cell-meta, .cell-badge { display:none; }
   .form-row { grid-template-columns:1fr; }
-  .header-right { gap:4px; }
+  .exam-row-actions { padding-right:8px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ==================== PAGE: TIMETABLE ==================== -->
-<div class="page active" id="page-timetable">
+<!-- ==================== PAGE: HOME (exam list) ==================== -->
+<div class="page active" id="page-home">
   <div class="page-header">
-    <h1 class="page-title">時間<span>割</span> — TestTrack</h1>
+    <h1 class="page-title">Test<span>Track</span></h1>
     <div class="header-right">
-      <button class="btn btn-ghost btn-sm" onclick="exportData()" title="全データをJSONでダウンロード">↓ エクスポート</button>
-      <button class="btn btn-ghost btn-sm" onclick="triggerImport()" title="JSONファイルから読み込む">↑ インポート</button>
-      <button class="btn btn-primary btn-sm" onclick="navigate('exam', null)">＋ テスト入力</button>
+      <button class="btn btn-ghost btn-sm" onclick="exportData()">↓ 保存</button>
+      <button class="btn btn-ghost btn-sm" onclick="triggerImport()">↑ 読込</button>
+      <button class="btn btn-primary btn-sm" onclick="navigate('select')">＋ テスト入力</button>
     </div>
   </div>
 
-  <div class="tt-wrap">
-    <div class="date-strip" id="dateStrip"></div>
+  <div class="home-wrap">
+    <!-- stats -->
+    <div class="stats-bar" id="statsBar"></div>
+    <!-- upcoming exam list -->
+    <div id="homeContent"></div>
+  </div>
+</div>
+
+<!-- ==================== PAGE: SELECT (timetable grid) ==================== -->
+<div class="page" id="page-select">
+  <div class="page-header">
+    <button class="back-btn" onclick="navigate('home')" title="戻る">←</button>
+    <h1 class="page-title">授業を<span>選択</span></h1>
+  </div>
+  <div class="select-wrap">
+    <div class="select-hint">📌 テストを追加したい授業をタップしてください</div>
     <div class="tt-grid" id="ttGrid"></div>
-    <div class="empty-state" id="ttEmpty" style="display:none">
+    <div class="empty-state" id="selectEmpty" style="display:none">
       <div class="empty-icon">📋</div>
-      <div class="empty-title">授業が登録されていません</div>
-      <p>サンプルデータを読み込んで試すか、授業を登録してください。</p>
-      <br>
-      <button class="btn btn-primary" onclick="loadSampleData()">時間割を読み込む</button>
+      <div class="empty-title">授業データがありません</div>
+      <p>「読込」ボタンからJSONデータを読み込んでください。</p>
     </div>
   </div>
 </div>
 
-<!-- ==================== PAGE: EXAM INPUT ==================== -->
+<!-- ==================== PAGE: EXAM (input form) ==================== -->
 <div class="page" id="page-exam">
   <div class="page-header">
-    <button class="back-btn" onclick="navigate('timetable')" title="時間割へ">←</button>
+    <button class="back-btn" onclick="navigate('select')" title="授業選択へ">←</button>
     <h1 class="page-title">テスト<span>入力</span></h1>
   </div>
 
@@ -411,7 +508,6 @@ textarea { resize:vertical; min-height:72px; }
 
     <div class="form-card">
       <div class="form-section-title">テストを追加</div>
-
       <div class="field">
         <label>テスト種別 *</label>
         <div class="type-group" id="typeGroup">
@@ -421,13 +517,11 @@ textarea { resize:vertical; min-height:72px; }
           <button class="type-btn" data-type="定期テスト">定期テスト</button>
         </div>
       </div>
-
       <div class="field">
         <label>テスト日 *</label>
         <input type="date" id="examDate" oninput="validateDateField()" />
         <div class="field-msg" id="examDateMsg"></div>
       </div>
-
       <div class="form-row">
         <div class="field">
           <label>開始時刻</label>
@@ -439,26 +533,23 @@ textarea { resize:vertical; min-height:72px; }
           <div class="field-msg" id="examTimeMsg"></div>
         </div>
       </div>
-
       <div class="field">
         <label>会場・教室</label>
         <input type="text" id="examRoom" placeholder="例: 3F 301教室" maxlength="40" />
       </div>
-
       <div class="field">
         <label>メモ</label>
         <textarea id="examNote" placeholder="範囲・持ち物など" maxlength="300"></textarea>
       </div>
-
       <div class="form-actions">
-        <button class="btn btn-primary" id="saveExamBtn" onclick="saveExam()">＋ テストを追加</button>
-        <button class="btn btn-ghost" onclick="navigate('timetable')">キャンセル</button>
+        <button class="btn btn-primary" onclick="saveExam()">＋ 追加</button>
+        <button class="btn btn-ghost"   onclick="navigate('select')">キャンセル</button>
       </div>
     </div>
 
-    <div class="form-card" id="existingExamsCard">
+    <div class="form-card">
       <div class="form-section-title" style="justify-content:space-between">
-        <span>登録済みテスト</span>
+        <span>この授業の登録済みテスト</span>
         <span id="examCountBadge" style="font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0"></span>
       </div>
       <div class="exam-list" id="examList"></div>
@@ -469,7 +560,7 @@ textarea { resize:vertical; min-height:72px; }
 <!-- ==================== MODAL: IMPORT ==================== -->
 <div class="modal-overlay" id="importModal">
   <div class="modal-box">
-    <div class="modal-title"><span class="modal-icon">📥</span>データの読み込み</div>
+    <div class="modal-title">📥 データの読み込み</div>
     <div class="modal-body">
       <p>ファイルに含まれるデータ:</p>
       <div class="modal-stat-row">
@@ -487,88 +578,76 @@ textarea { resize:vertical; min-height:72px; }
       <p id="modalExistingMsg"></p>
     </div>
     <div class="modal-actions">
-      <button class="btn btn-primary" id="modalOverwriteBtn" onclick="confirmImport('overwrite')">上書き</button>
-      <button class="btn btn-ghost"   id="modalMergeBtn"     onclick="confirmImport('merge')">マージ</button>
+      <button class="btn btn-primary" onclick="confirmImport('overwrite')">上書き</button>
+      <button class="btn btn-ghost"   id="modalMergeBtn" onclick="confirmImport('merge')">マージ</button>
       <button class="btn btn-ghost"   onclick="closeModal('importModal')">キャンセル</button>
     </div>
   </div>
 </div>
 
-<!-- Hidden file input -->
 <input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)" />
-
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
 'use strict';
 
 // ============================================================
-// Constants & Storage
+// Constants
 // ============================================================
-const KEYS = {
-  SUBJECTS: 'exam_app:subjects',
-  EXAMS:    'exam_app:exams',
-};
-
+const KEYS       = { SUBJECTS:'exam_app:subjects', EXAMS:'exam_app:exams' };
 const WEEKDAYS   = ['月','火','水','木','金'];
 const JS_DAY     = { '月':1,'火':2,'水':3,'木':4,'金':5 };
 const EXAM_TYPES = ['中間テスト','期末テスト','小テスト','定期テスト'];
-
-const WD_COLORS = {
-  '月': { color:'#5b8af0', bg:'rgba(91,138,240,.1)' },
-  '火': { color:'#3ecf8e', bg:'rgba(62,207,142,.1)' },
-  '水': { color:'#f0c46b', bg:'rgba(240,196,107,.1)' },
-  '木': { color:'#c97af0', bg:'rgba(201,122,240,.1)' },
-  '金': { color:'#f07a5b', bg:'rgba(240,122,91,.1)'  },
+const WD_COLORS  = {
+  '月':{ color:'#5b8af0', bg:'rgba(91,138,240,.1)'  },
+  '火':{ color:'#3ecf8e', bg:'rgba(62,207,142,.1)'  },
+  '水':{ color:'#f0c46b', bg:'rgba(240,196,107,.1)' },
+  '木':{ color:'#c97af0', bg:'rgba(201,122,240,.1)' },
+  '金':{ color:'#f07a5b', bg:'rgba(240,122,91,.1)'  },
 };
+const ISO_RE  = /^\d{4}-\d{2}-\d{2}$/;
+const TIME_RE = /^\d{2}:\d{2}$/;
+const COLOR_RE= /^#[0-9a-fA-F]{6}$/;
 
-// In-memory state
-let subjects = [];
-let exams    = [];
+// ============================================================
+// State
+// ============================================================
+let subjects         = [];
+let exams            = [];
 let currentSubjectId = null;
 let selectedExamType = EXAM_TYPES[0];
 let pendingImport    = null;
+let showPast         = false;
 
 // ============================================================
-// Storage helpers
+// Storage
 // ============================================================
 function loadAll() {
-  try { subjects = JSON.parse(localStorage.getItem(KEYS.SUBJECTS) || '[]'); }
-  catch { subjects = []; }
-  try { exams    = JSON.parse(localStorage.getItem(KEYS.EXAMS)    || '[]'); }
-  catch { exams = []; }
+  try { subjects = JSON.parse(localStorage.getItem(KEYS.SUBJECTS) || '[]'); } catch { subjects = []; }
+  try { exams    = JSON.parse(localStorage.getItem(KEYS.EXAMS)    || '[]'); } catch { exams = []; }
 }
-
 function persistSubjects() { localStorage.setItem(KEYS.SUBJECTS, JSON.stringify(subjects)); }
 function persistExams()    { localStorage.setItem(KEYS.EXAMS,    JSON.stringify(exams));    }
-
 function genId() {
-  return (typeof crypto !== 'undefined' && crypto.randomUUID)
+  return typeof crypto !== 'undefined' && crypto.randomUUID
     ? crypto.randomUUID()
     : Math.random().toString(36).slice(2) + Date.now().toString(36);
 }
 
 // ============================================================
-// Date utilities — single source of truth
+// Date utilities
 // ============================================================
-/** 'YYYY-MM-DD' from Date */
-function toISO(d) {
-  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
-}
-function pad(n) { return String(n).padStart(2,'0'); }
-
-/** Date from 'YYYY-MM-DD' (local time) */
+function pad(n)    { return String(n).padStart(2,'0'); }
+function toISO(d)  { return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+function todayISO(){ return toISO(new Date()); }
 function parseISO(iso) {
   if (!iso) return null;
   const [y,m,d] = iso.split('-').map(Number);
-  return new Date(y, m-1, d);
+  return new Date(y,m-1,d);
 }
+function isValidISO(s)  { return ISO_RE.test(s)  && !isNaN(parseISO(s)); }
+function isValidTime(s) { return TIME_RE.test(s); }
 
-/** Today as 'YYYY-MM-DD' */
-function todayISO() { return toISO(new Date()); }
-
-/** '2025/06/14(土)' display format */
 function fmtDate(iso) {
   if (!iso) return '—';
   const d = parseISO(iso);
@@ -576,672 +655,611 @@ function fmtDate(iso) {
   const wd = ['日','月','火','水','木','金','土'][d.getDay()];
   return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())}(${wd})`;
 }
-
-/** 'HH:MM〜HH:MM' or 'HH:MM' */
-function fmtTime(start, end) {
-  if (!start) return '';
-  return end ? `${start}〜${end}` : start;
+function fmtDateShort(iso) {
+  if (!iso) return '—';
+  const d = parseISO(iso);
+  const wd = ['日','月','火','水','木','金','土'][d.getDay()];
+  return `${pad(d.getMonth()+1)}/${pad(d.getDate())}(${wd})`;
 }
-
-/** Returns true if iso is valid YYYY-MM-DD */
-const ISO_RE   = /^\d{4}-\d{2}-\d{2}$/;
-const TIME_RE  = /^\d{2}:\d{2}$/;
-const COLOR_RE = /^#[0-9a-fA-F]{6}$/;
-
-function isValidISO(s)  { return ISO_RE.test(s)  && !isNaN(parseISO(s)); }
-function isValidTime(s) { return TIME_RE.test(s); }
+function daysUntil(iso) {
+  const t = parseISO(todayISO()); const v = parseISO(iso);
+  return Math.round((v - t) / 86400000);
+}
+function fmtTime(s, e) { return s ? (e ? `${s}〜${e}` : s) : ''; }
 
 // ============================================================
 // Occurrence logic
 // ============================================================
-function nextOccurrenceDates(s, count = 1) {
-  return getNthFrom(s.startDate, s.weekday, s.holidays || [], todayISO(), count);
-}
-
-function getNthFrom(startDate, weekday, holidays, fromDate, count) {
-  const targetDay = JS_DAY[weekday];
-  const hSet = new Set(holidays);
-  const from = parseISO(fromDate) || parseISO(startDate);
-  if (!from) return [];
-  const cur = new Date(from);
-  while (cur.getDay() !== targetDay) cur.setDate(cur.getDate() + 1);
-  const result = [];
-  let guard = 0;
+function nextOccurrenceDates(s, count=1) {
+  const targetDay = JS_DAY[s.weekday];
+  const hSet = new Set(s.holidays || []);
+  const from = parseISO(todayISO());
+  const cur  = new Date(from);
+  while (cur.getDay() !== targetDay) cur.setDate(cur.getDate()+1);
+  const result = []; let guard = 0;
   while (result.length < count && guard++ < 1000) {
     const iso = toISO(cur);
     if (!hSet.has(iso)) result.push(iso);
-    cur.setDate(cur.getDate() + 7);
+    cur.setDate(cur.getDate()+7);
   }
   return result;
 }
-
 function getOccurrenceNumber(s, date) {
   const targetDay = JS_DAY[s.weekday];
-  const hSet = new Set(s.holidays || []);
-  const start = parseISO(s.startDate);
-  if (!start) return null;
-  const cur = new Date(start);
-  while (cur.getDay() !== targetDay) cur.setDate(cur.getDate() + 1);
-  let count = 0;
-  let guard = 0;
-  while (guard++ < 1000) {
-    const iso = toISO(cur);
+  const hSet = new Set(s.holidays||[]);
+  const cur  = new Date(parseISO(s.startDate));
+  while (cur.getDay() !== targetDay) cur.setDate(cur.getDate()+1);
+  let count=0, guard=0;
+  while (guard++<2000) {
+    const iso=toISO(cur);
     if (!hSet.has(iso)) count++;
-    if (iso === date) return count;
-    if (iso > date) return null;
-    cur.setDate(cur.getDate() + 7);
+    if (iso===date) return count;
+    if (iso>date)   return null;
+    cur.setDate(cur.getDate()+7);
   }
   return null;
 }
 
 // ============================================================
-// HTML utility
+// Utilities
 // ============================================================
 function esc(s) {
-  return String(s ?? '').replace(/[&<>"']/g,
-    c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  return String(s??'').replace(/[&<>"']/g,
+    c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
-
-function hexToRgba(hex, a) {
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
+function hexToRgba(hex,a) {
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
   return `rgba(${r},${g},${b},${a})`;
 }
+function subjectColor(s) { return (s && s.color) || '#5b8af0'; }
 
 // ============================================================
 // Router
 // ============================================================
 function navigate(route, subjectId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + route).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (route === 'timetable') renderTimetable();
-  if (route === 'exam')      renderExamPage(subjectId ?? null);
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+route).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (route==='home')   renderHome();
+  if (route==='select') renderSelect();
+  if (route==='exam')   renderExamPage(subjectId??null);
 }
 
 // ============================================================
-// Timetable
+// PAGE: HOME — upcoming exam list
 // ============================================================
-function renderTimetable() {
+function renderHome() {
   loadAll();
+  const today = todayISO();
 
-  // Date strip
-  const strip = document.getElementById('dateStrip');
-  strip.innerHTML = `<div class="date-chip">今日 <strong>${fmtDate(todayISO())}</strong></div>`;
-  if (subjects.length) {
-    strip.innerHTML += `<span class="strip-summary">授業 ${subjects.length}件 ／ テスト ${exams.length}件</span>`;
-  }
+  // Stats
+  const upcoming = exams.filter(e=>e.date>=today);
+  const statsBar = document.getElementById('statsBar');
+  statsBar.innerHTML = `
+    <div class="stat-pill"><span class="val">${fmtDate(today).slice(5)}</span><span class="lbl">今日</span></div>
+    <div class="stat-pill"><span class="val">${upcoming.length}</span><span class="lbl">件のテスト予定</span></div>
+    <div class="stat-pill"><span class="val">${subjects.length}</span><span class="lbl">科目</span></div>
+  `;
 
-  const grid  = document.getElementById('ttGrid');
-  const empty = document.getElementById('ttEmpty');
+  const content = document.getElementById('homeContent');
 
-  if (!subjects.length) {
-    grid.style.display  = 'none';
-    empty.style.display = '';
+  if (!exams.length) {
+    content.innerHTML = `<div class="empty-state">
+      <div class="empty-icon">📭</div>
+      <div class="empty-title">テストが登録されていません</div>
+      <p>「＋ テスト入力」から授業を選んで登録してください。</p>
+    </div>`;
     return;
   }
-  grid.style.display  = 'grid';
-  empty.style.display = 'none';
 
-  const maxPeriod = Math.max(...subjects.map(s => s.period), 5);
+  const futureExams = exams.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
+  const pastExams   = exams.filter(e=>e.date<today).sort((a,b)=>b.date.localeCompare(a.date));
 
-  // Build weekday×period lookup
-  const lookup = {};
-  subjects.forEach(s => {
-    (lookup[s.weekday] = lookup[s.weekday] || {})[s.period] = s;
+  let html = '';
+
+  if (futureExams.length) {
+    html += `<div class="exam-section">
+      <div class="section-label">今後のテスト</div>`;
+    html += renderDateGroups(futureExams, false);
+    html += `</div>`;
+  } else {
+    html += `<div class="exam-section">
+      <div class="section-label">今後のテスト</div>
+      <div style="color:var(--muted);font-size:13px;text-align:center;padding:32px 0;">予定はありません</div>
+    </div>`;
+  }
+
+  if (pastExams.length) {
+    html += `<button class="toggle-past-btn" onclick="togglePast(this)">
+      ${showPast ? '▲' : '▼'} 過去のテスト（${pastExams.length}件）
+    </button>
+    <div class="past-section" id="pastSection" style="display:${showPast?'block':'none'}">
+      <div class="exam-section" style="margin-top:12px">
+        <div class="section-label">過去のテスト</div>
+        ${renderDateGroups(pastExams, true)}
+      </div>
+    </div>`;
+  }
+
+  content.innerHTML = html;
+
+  // stagger
+  document.querySelectorAll('.exam-row').forEach((el,i)=>{
+    el.style.animationDelay=`${i*18}ms`;
+  });
+}
+
+function renderDateGroups(examList, isPast) {
+  // Group by date
+  const groups = {};
+  examList.forEach(e=>{
+    (groups[e.date]=groups[e.date]||[]).push(e);
   });
 
-  // Build upcoming exam lookup: subjectId → earliest future exam
-  const today = todayISO();
-  const upcomingExam = {};
-  exams.forEach(e => {
-    if (e.date >= today) {
-      if (!upcomingExam[e.subjectId] || e.date < upcomingExam[e.subjectId].date) {
-        upcomingExam[e.subjectId] = e;
-      }
+  return Object.entries(groups).map(([date, group])=>{
+    const d = daysUntil(date);
+    let badgeClass, badgeText;
+    if (isPast) {
+      badgeClass='normal'; badgeText=`${Math.abs(d)}日前`;
+    } else if (d===0) {
+      badgeClass='today'; badgeText='今日';
+    } else if (d<=3) {
+      badgeClass='soon';  badgeText=`あと${d}日`;
+    } else if (d<=7) {
+      badgeClass='week';  badgeText=`あと${d}日`;
+    } else {
+      badgeClass='normal'; badgeText=`あと${d}日`;
     }
-  });
 
-  // Subjects that already have exams registered
-  const examSubjectIds = new Set(exams.map(e => e.subjectId));
+    const rows = group.map((e,i) => {
+      const s     = subjects.find(s=>s.id===e.subjectId);
+      const color = subjectColor(s);
+      const meta  = [
+        s ? `${s.weekday} ${s.period}限` : '',
+        fmtTime(e.startTime, e.endTime),
+        e.room || '',
+        e.note || '',
+      ].filter(Boolean).join('　');
 
-  let html = `<div></div>`; // corner
+      return `<div class="exam-row" style="--subject-color:${esc(color)};animation-delay:${i*15}ms">
+        <div class="exam-row-bar"></div>
+        <div class="exam-row-body">
+          <span class="exam-row-type ${esc(e.type)}">${esc(e.type)}</span>
+          <div class="exam-row-info">
+            <div class="exam-row-subject">${s?esc(s.name):'(削除済み授業)'}</div>
+            ${meta ? `<div class="exam-row-meta">${esc(meta)}</div>` : ''}
+          </div>
+        </div>
+        <div class="exam-row-actions">
+          ${s ? `<button class="row-edit-btn" onclick="navigate('exam','${esc(s.id)}')">編集</button>` : ''}
+          <button class="row-del-btn" onclick="deleteExamFromHome('${esc(e.id)}')">削除</button>
+        </div>
+      </div>`;
+    }).join('');
 
-  // Column headers
-  WEEKDAYS.forEach(wd => {
-    const c = WD_COLORS[wd];
-    html += `<div class="tt-col-head" style="--color:${c.color};--color-bg:${c.bg}">
+    return `<div class="date-group">
+      <div class="date-header">
+        <span class="date-label">${fmtDateShort(date)}</span>
+        <span class="days-badge ${badgeClass}">${badgeText}</span>
+      </div>
+      ${rows}
+    </div>`;
+  }).join('');
+}
+
+function togglePast(btn) {
+  showPast = !showPast;
+  renderHome();
+}
+
+function deleteExamFromHome(id) {
+  if (!confirm('このテストを削除しますか？')) return;
+  exams = exams.filter(e=>e.id!==id);
+  persistExams();
+  renderHome();
+  showToast('削除しました');
+}
+
+// ============================================================
+// PAGE: SELECT — timetable grid
+// ============================================================
+function renderSelect() {
+  loadAll();
+  const grid  = document.getElementById('ttGrid');
+  const empty = document.getElementById('selectEmpty');
+
+  if (!subjects.length) {
+    grid.style.display='none'; empty.style.display='';
+    return;
+  }
+  grid.style.display='grid'; empty.style.display='none';
+
+  const maxPeriod = Math.max(...subjects.map(s=>s.period),5);
+  const lookup={};
+  subjects.forEach(s=>{ (lookup[s.weekday]=lookup[s.weekday]||{})[s.period]=s; });
+
+  const today = todayISO();
+  // Next exam per subject (upcoming only)
+  const nextExamMap={};
+  exams.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date))
+    .forEach(e=>{ if(!nextExamMap[e.subjectId]) nextExamMap[e.subjectId]=e; });
+
+  const examSubjectIds = new Set(exams.map(e=>e.subjectId));
+
+  let html='<div></div>';
+  WEEKDAYS.forEach(wd=>{
+    const c=WD_COLORS[wd];
+    html+=`<div class="tt-col-head" style="--color:${c.color};--color-bg:${c.bg}">
       <div class="wday">${wd}</div>
     </div>`;
   });
 
-  for (let pd = 1; pd <= maxPeriod; pd++) {
-    html += `<div class="tt-period">${pd}限</div>`;
-    WEEKDAYS.forEach(wd => {
-      const s = lookup[wd]?.[pd];
-      if (!s) { html += `<div class="tt-cell empty"></div>`; return; }
+  for(let pd=1;pd<=maxPeriod;pd++){
+    html+=`<div class="tt-period">${pd}限</div>`;
+    WEEKDAYS.forEach(wd=>{
+      const s=lookup[wd]?.[pd];
+      if(!s){ html+=`<div class="tt-cell empty"></div>`; return; }
+      const color=subjectColor(s);
+      const colorBg=hexToRgba(color,.12);
+      const colorBorder=hexToRgba(color,.35);
+      const nextDates=nextOccurrenceDates(s,1);
+      const nextDate=nextDates[0]||null;
+      const nextN=nextDate?getOccurrenceNumber(s,nextDate):null;
+      const nx=nextExamMap[s.id];
+      const hasExam=examSubjectIds.has(s.id);
 
-      const color       = s.color || '#5b8af0';
-      const colorBg     = hexToRgba(color, .12);
-      const colorBorder = hexToRgba(color, .35);
-      const nextDates   = nextOccurrenceDates(s, 1);
-      const nextDate    = nextDates[0] || null;
-      const nextN       = nextDate ? getOccurrenceNumber(s, nextDate) : null;
-      const hasExam     = examSubjectIds.has(s.id);
-      const nextExam    = upcomingExam[s.id] || null;
-
-      html += `<div class="tt-cell has-subject"
+      html+=`<div class="tt-cell has-subject"
           style="--subject-color:${color};--subject-color-bg:${colorBg};--subject-color-border:${colorBorder}"
           onclick="navigate('exam','${esc(s.id)}')"
-          title="${esc(s.name)} — クリックでテスト入力">
-        ${hasExam ? '<div class="cell-exam-dot" title="テスト登録済"></div>' : ''}
+          title="${esc(s.name)}">
+        ${hasExam?'<div class="cell-exam-dot"></div>':''}
         <div class="cell-inner">
           <div class="cell-name">${esc(s.name)}</div>
           ${nextDate
-            ? `<div class="cell-meta">次: ${fmtDate(nextDate)}</div>`
-            : `<div class="cell-meta" style="color:var(--red)">次回なし</div>`}
-          ${nextExam
-            ? `<div class="cell-badge" title="${esc(nextExam.note||nextExam.type)}">📝 ${fmtDate(nextExam.date)}</div>`
-            : nextN !== null
-              ? `<div class="cell-badge">第${nextN}回</div>`
-              : ''}
+            ?`<div class="cell-meta">次: ${fmtDateShort(nextDate)}</div>`
+            :`<div class="cell-meta" style="color:var(--red)">次回なし</div>`}
+          ${nx
+            ?`<div class="cell-badge">📝 ${fmtDateShort(nx.date)}</div>`
+            : nextN!==null
+              ?`<div class="cell-badge">第${nextN}回</div>`:''}
         </div>
       </div>`;
     });
   }
 
-  grid.innerHTML = html;
-  document.querySelectorAll('.tt-cell.has-subject').forEach((el, i) => {
-    el.style.animationDelay = `${i * 25}ms`;
+  grid.innerHTML=html;
+  document.querySelectorAll('.tt-cell.has-subject').forEach((el,i)=>{
+    el.style.animationDelay=`${i*25}ms`;
   });
 }
 
 // ============================================================
-// Exam page
+// PAGE: EXAM — form
 // ============================================================
-document.getElementById('typeGroup').addEventListener('click', e => {
-  const btn = e.target.closest('.type-btn');
-  if (!btn) return;
-  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+document.getElementById('typeGroup').addEventListener('click',e=>{
+  const btn=e.target.closest('.type-btn');
+  if(!btn) return;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  selectedExamType = btn.dataset.type;
+  selectedExamType=btn.dataset.type;
 });
 
 function renderExamPage(subjectId) {
   loadAll();
-  currentSubjectId = subjectId;
+  currentSubjectId=subjectId;
+  const card=document.getElementById('examSubjectCard');
+  const nameEl=document.getElementById('examSubjectName');
+  const metaEl=document.getElementById('examSubjectMeta');
+  const badge=document.getElementById('examSubjectBadge');
 
-  const card   = document.getElementById('examSubjectCard');
-  const nameEl = document.getElementById('examSubjectName');
-  const metaEl = document.getElementById('examSubjectMeta');
-  const badge  = document.getElementById('examSubjectBadge');
-
-  if (subjectId) {
-    const s = subjects.find(s => s.id === subjectId);
-    if (s) {
-      const color = s.color || '#5b8af0';
-      card.style.setProperty('--subject-color', color);
-      nameEl.textContent = s.name;
-      metaEl.textContent = `${s.weekday}曜 ${s.period}限 ／ 開始: ${fmtDate(s.startDate)} ／ 休み${(s.holidays||[]).length}日`;
-      badge.textContent  = `${s.weekday} ${s.period}限`;
-
-      // Pre-fill date with next occurrence
-      const dateInput = document.getElementById('examDate');
-      if (!dateInput.value) {
-        const next = nextOccurrenceDates(s, 1);
-        if (next[0]) dateInput.value = next[0];
+  if(subjectId){
+    const s=subjects.find(s=>s.id===subjectId);
+    if(s){
+      const color=subjectColor(s);
+      card.style.setProperty('--subject-color',color);
+      nameEl.textContent=s.name;
+      metaEl.textContent=`${s.weekday}曜 ${s.period}限 ／ 開始: ${fmtDate(s.startDate)} ／ 休み${(s.holidays||[]).length}日`;
+      badge.textContent=`${s.weekday} ${s.period}限`;
+      const dateInput=document.getElementById('examDate');
+      if(!dateInput.value){
+        const next=nextOccurrenceDates(s,1);
+        if(next[0]) dateInput.value=next[0];
       }
     } else {
-      nameEl.textContent = '(授業が見つかりません)';
-      metaEl.textContent = '授業データが削除された可能性があります';
-      badge.textContent  = '不明';
-      card.style.setProperty('--subject-color', 'var(--red)');
+      nameEl.textContent='(授業が見つかりません)';
+      metaEl.textContent='';
+      badge.textContent='不明';
+      card.style.setProperty('--subject-color','var(--red)');
     }
-  } else {
-    card.style.setProperty('--subject-color', 'var(--accent)');
-    nameEl.textContent = 'すべての授業対象';
-    metaEl.textContent = '授業を指定せずにテストを追加します';
-    badge.textContent  = '未指定';
   }
-
   clearFormMessages();
   renderExamList();
 }
 
 function renderExamList() {
-  const list    = document.getElementById('examList');
-  const badge   = document.getElementById('examCountBadge');
-  const filtered = currentSubjectId
-    ? exams.filter(e => e.subjectId === currentSubjectId)
+  const list=document.getElementById('examList');
+  const badge=document.getElementById('examCountBadge');
+  const filtered=currentSubjectId
+    ? exams.filter(e=>e.subjectId===currentSubjectId)
     : [...exams];
+  filtered.sort((a,b)=>a.date.localeCompare(b.date));
+  badge.textContent=filtered.length?`${filtered.length}件`:'';
 
-  filtered.sort((a, b) => a.date.localeCompare(b.date));
-  badge.textContent = filtered.length ? `${filtered.length}件` : '';
-
-  if (!filtered.length) {
-    list.innerHTML = `<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">まだテストが登録されていません</div>`;
+  if(!filtered.length){
+    list.innerHTML=`<div style="color:var(--muted);font-size:13px;text-align:center;padding:16px 0;">まだ登録がありません</div>`;
     return;
   }
-
-  list.innerHTML = filtered.map(e => {
-    const s   = subjects.find(s => s.id === e.subjectId);
-    const sub = s ? esc(s.name) : '(削除済み授業)';
-    const time = fmtTime(e.startTime, e.endTime);
-    const parts = [sub, time, e.room ? esc(e.room) : ''].filter(Boolean).join(' ／ ');
-    const isPast = e.date < todayISO();
-    return `<div class="exam-card" style="${isPast ? 'opacity:.6' : ''}">
+  const today=todayISO();
+  list.innerHTML=filtered.map(e=>{
+    const isPast=e.date<today;
+    const time=fmtTime(e.startTime,e.endTime);
+    return `<div class="ec-card" style="${isPast?'opacity:.6':''}">
       <span class="ec-type-badge ${esc(e.type)}">${esc(e.type)}</span>
       <div class="ec-info">
-        <div class="ec-date">${fmtDate(e.date)}${isPast ? ' <span style="color:var(--muted);font-size:10px">済</span>' : ''}</div>
-        <div class="ec-meta">${parts}</div>
-        ${e.note ? `<div class="ec-meta" style="margin-top:2px">${esc(e.note)}</div>` : ''}
+        <div class="ec-date">${fmtDate(e.date)}${isPast?' <span style="color:var(--muted);font-size:10px">済</span>':''}</div>
+        <div class="ec-meta">${[time,e.room?esc(e.room):'',e.note?esc(e.note):''].filter(Boolean).join(' ／ ')}</div>
       </div>
       <button class="ec-del" onclick="deleteExam('${esc(e.id)}')">削除</button>
     </div>`;
   }).join('');
 }
 
-// ---- Validation helpers ----
-function clearFormMessages() {
-  ['examDate','examStart','examEnd'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.classList.remove('error','warn');
+// Validation
+function clearFormMessages(){
+  ['examDate','examStart','examEnd'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.remove('error','warn');
   });
-  ['examDateMsg','examTimeMsg'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.textContent = ''; el.className = 'field-msg'; }
+  ['examDateMsg','examTimeMsg'].forEach(id=>{
+    const el=document.getElementById(id); if(el){el.textContent='';el.className='field-msg';}
   });
 }
-
-function setMsg(id, msg, type) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.textContent = msg; el.className = `field-msg ${type}`;
+function setMsg(id,msg,type){
+  const el=document.getElementById(id); if(!el)return;
+  el.textContent=msg; el.className=`field-msg ${type}`;
 }
-
-function validateDateField() {
-  const val = document.getElementById('examDate').value;
+function validateDateField(){
+  const val=document.getElementById('examDate').value;
   clearFormMessages();
-  if (!val) return;
-  if (val < todayISO()) {
+  if(val && val<todayISO()){
     document.getElementById('examDate').classList.add('warn');
-    setMsg('examDateMsg', '⚠ 過去の日付です', 'warn');
+    setMsg('examDateMsg','⚠ 過去の日付です','warn');
   }
 }
-
-function validateTimeFields() {
-  const s = document.getElementById('examStart').value;
-  const e = document.getElementById('examEnd').value;
-  document.getElementById('examStart').classList.remove('error','warn');
-  document.getElementById('examEnd').classList.remove('error','warn');
+function validateTimeFields(){
+  const s=document.getElementById('examStart').value;
+  const e=document.getElementById('examEnd').value;
+  ['examStart','examEnd'].forEach(id=>document.getElementById(id).classList.remove('error','warn'));
   setMsg('examTimeMsg','','');
-
-  if (e && !s) {
-    document.getElementById('examStart').classList.add('error');
-    document.getElementById('examEnd').classList.add('error');
+  if(e&&!s){
+    ['examStart','examEnd'].forEach(id=>document.getElementById(id).classList.add('error'));
     setMsg('examTimeMsg','開始時刻が未入力です','error');
     return false;
   }
-  if (s && e && s >= e) {
+  if(s&&e&&s>=e){
     document.getElementById('examEnd').classList.add('warn');
     setMsg('examTimeMsg','⚠ 終了時刻が開始時刻以前です','warn');
   }
   return true;
 }
 
-function isDuplicateExam(subjectId, date, type, excludeId) {
-  return exams.some(e =>
-    e.id !== excludeId &&
-    e.subjectId === (subjectId || '') &&
-    e.date === date &&
-    e.type === type
-  );
-}
-
-function saveExam() {
-  const date  = document.getElementById('examDate').value;
-  const start = document.getElementById('examStart').value;
-  const end   = document.getElementById('examEnd').value;
-
+function saveExam(){
+  const date =document.getElementById('examDate').value;
+  const start=document.getElementById('examStart').value;
+  const end  =document.getElementById('examEnd').value;
   clearFormMessages();
 
-  // Required: date
-  if (!date) {
+  if(!date){
     document.getElementById('examDate').classList.add('error');
     setMsg('examDateMsg','テスト日は必須です','error');
     document.getElementById('examDate').focus();
     return;
   }
-
-  // Time consistency
-  if (end && !start) {
+  if(end&&!start){
     document.getElementById('examStart').classList.add('error');
     setMsg('examTimeMsg','開始時刻を入力してください','error');
     return;
   }
+  if(!validateTimeFields()) return;
 
-  if (!validateTimeFields()) return;
+  const isDup=exams.some(e=>
+    e.subjectId===(currentSubjectId||'') && e.date===date && e.type===selectedExamType
+  );
+  if(isDup && !confirm('同じ授業・日付・種別のテストがすでに存在します。重複して追加しますか？')) return;
 
-  // Duplicate check
-  if (isDuplicateExam(currentSubjectId, date, selectedExamType, null)) {
-    if (!confirm(`同じ授業・日付・種別のテストがすでに存在します。\n重複して追加しますか？`)) return;
-  }
-
-  const exam = {
-    id:        genId(),
-    subjectId: currentSubjectId || '',
-    type:      selectedExamType,
-    date,
-    ...(start && { startTime: start }),
-    ...(end   && { endTime:   end   }),
-    ...(document.getElementById('examRoom').value.trim() && {
-          room: document.getElementById('examRoom').value.trim() }),
-    ...(document.getElementById('examNote').value.trim() && {
-          note: document.getElementById('examNote').value.trim().slice(0, 300) }),
-  };
-
-  exams.push(exam);
+  exams.push({
+    id:genId(), subjectId:currentSubjectId||'', type:selectedExamType, date,
+    ...(start&&{startTime:start}), ...(end&&{endTime:end}),
+    ...(document.getElementById('examRoom').value.trim()&&{room:document.getElementById('examRoom').value.trim()}),
+    ...(document.getElementById('examNote').value.trim()&&{note:document.getElementById('examNote').value.trim().slice(0,300)}),
+  });
   persistExams();
 
-  // Reset fields (keep date & subject context)
-  ['examStart','examEnd','examRoom'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('examNote').value = '';
+  ['examStart','examEnd','examRoom'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('examNote').value='';
   clearFormMessages();
-
   renderExamList();
-  showToast('テストを追加しました ✓', 'success');
+  showToast('テストを追加しました ✓','success');
 }
 
-function deleteExam(id) {
-  if (!confirm('このテスト日程を削除しますか？')) return;
-  exams = exams.filter(e => e.id !== id);
+function deleteExam(id){
+  if(!confirm('このテストを削除しますか？')) return;
+  exams=exams.filter(e=>e.id!==id);
   persistExams();
   renderExamList();
   showToast('削除しました');
 }
 
 // ============================================================
-// Export
+// Export / Import
 // ============================================================
-function exportData() {
+function exportData(){
   loadAll();
-  const payload = {
-    _meta: {
-      version:    2,
-      app:        'TestTrack',
-      exportedAt: new Date().toISOString(),
-      counts:     { subjects: subjects.length, exams: exams.length },
-    },
-    subjects,
-    exams,
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `testtrack_${todayISO().replace(/-/g,'')}.json`;
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  showToast(`エクスポート完了: 授業${subjects.length}件 / テスト${exams.length}件`, 'success');
+  const blob=new Blob([JSON.stringify({
+    _meta:{version:2,app:'TestTrack',exportedAt:new Date().toISOString(),counts:{subjects:subjects.length,exams:exams.length}},
+    subjects, exams
+  },null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=`testtrack_${todayISO().replace(/-/g,'')}.json`; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  showToast(`保存しました: 授業${subjects.length}件 / テスト${exams.length}件`,'success');
 }
 
-// ============================================================
-// Import
-// ============================================================
-function triggerImport() {
-  document.getElementById('importFile').value = '';
+function triggerImport(){
+  document.getElementById('importFile').value='';
   document.getElementById('importFile').click();
 }
 
-function handleImport(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = e => {
+function handleImport(event){
+  const file=event.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=e=>{
     let raw;
-    try { raw = JSON.parse(e.target.result); }
-    catch { return showToast('JSONの解析に失敗しました', 'error'); }
+    try{raw=JSON.parse(e.target.result);}
+    catch{return showToast('JSONの解析に失敗しました','error');}
+    const result=validateImportPayload(raw);
+    if(!result.valid) return showToast(`形式エラー: ${result.fatalErrors[0]}`,'error');
 
-    const result = validateImportPayload(raw);
-
-    if (!result.valid) {
-      showToast(`形式エラー: ${result.fatalErrors[0]}`, 'error');
-      console.error('Import fatal errors:', result.fatalErrors);
-      return;
-    }
-
-    pendingImport = result;
-
+    pendingImport=result;
     loadAll();
-    const hasExisting = subjects.length > 0 || exams.length > 0;
-
-    document.getElementById('modalSubCount').textContent  = result.subjects.length;
-    document.getElementById('modalExamCount').textContent = result.exams.length;
-
-    const warnBox = document.getElementById('modalWarnBox');
-    if (result.warnings.length) {
-      warnBox.style.display = '';
-      warnBox.textContent   = `⚠ ${result.warnings.length}件のデータをスキップしました: ${result.warnings[0]}`;
+    const hasExisting=subjects.length>0||exams.length>0;
+    document.getElementById('modalSubCount').textContent=result.subjects.length;
+    document.getElementById('modalExamCount').textContent=result.exams.length;
+    const wb=document.getElementById('modalWarnBox');
+    if(result.warnings.length){wb.style.display='';wb.textContent=`⚠ ${result.warnings.length}件スキップ: ${result.warnings[0]}`;}
+    else wb.style.display='none';
+    const msg=document.getElementById('modalExistingMsg');
+    if(hasExisting){
+      msg.innerHTML=`現在 <strong>${subjects.length}</strong>件の授業 / <strong>${exams.length}</strong>件のテストがあります。<br><strong>上書き</strong>: 全置換　<strong>マージ</strong>: IDで差分統合`;
+      document.getElementById('modalMergeBtn').style.display='';
     } else {
-      warnBox.style.display = 'none';
+      msg.textContent='既存データはありません。そのまま読み込みます。';
+      document.getElementById('modalMergeBtn').style.display='none';
     }
-
-    const msg = document.getElementById('modalExistingMsg');
-    if (hasExisting) {
-      msg.innerHTML = `現在 <strong>${subjects.length}</strong> 件の授業と <strong>${exams.length}</strong> 件のテストが登録されています。<br>
-        <strong>上書き</strong>: 既存データを完全に置き換えます。<br>
-        <strong>マージ</strong>: IDが一致するデータは新しい方で更新し、ないものを追加します。`;
-      document.getElementById('modalMergeBtn').style.display = '';
-    } else {
-      msg.textContent = '既存データはありません。そのまま読み込みます。';
-      document.getElementById('modalMergeBtn').style.display = 'none';
-    }
-
     openModal('importModal');
   };
   reader.readAsText(file);
 }
 
-/**
- * Validates import payload.
- * Returns { valid, subjects, exams, warnings, fatalErrors }
- */
-function validateImportPayload(raw) {
-  const fatalErrors = [];
-  const warnings    = [];
+function validateImportPayload(raw){
+  const fatalErrors=[],warnings=[];
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))
+    return{valid:false,fatalErrors:['ルートがオブジェクトではありません'],warnings,subjects:[],exams:[]};
+  if(!Array.isArray(raw.subjects)) fatalErrors.push('"subjects" 配列が必要です');
+  if(!Array.isArray(raw.exams))    fatalErrors.push('"exams" 配列が必要です');
+  if(fatalErrors.length) return{valid:false,fatalErrors,warnings,subjects:[],exams:[]};
 
-  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
-    return { valid: false, fatalErrors: ['ルートがオブジェクトではありません'], warnings, subjects: [], exams: [] };
-  }
-  if (!Array.isArray(raw.subjects)) {
-    fatalErrors.push('"subjects" 配列が見つかりません');
-  }
-  if (!Array.isArray(raw.exams)) {
-    fatalErrors.push('"exams" 配列が見つかりません');
-  }
-  if (fatalErrors.length) return { valid: false, fatalErrors, warnings, subjects: [], exams: [] };
+  const WDAY=new Set(WEEKDAYS), TYPE=new Set(EXAM_TYPES);
+  const validS=[], validE=[];
 
-  const WDAY_SET = new Set(WEEKDAYS);
-  const TYPE_SET = new Set(EXAM_TYPES);
-
-  // Validate subjects
-  const validSubjects = [];
-  raw.subjects.forEach((s, i) => {
-    const label = `subjects[${i}]`;
-    if (!s.id || typeof s.id !== 'string') { warnings.push(`${label}: id が不正`); return; }
-    if (!s.name || typeof s.name !== 'string') { warnings.push(`${label}: name が不正`); return; }
-    if (!WDAY_SET.has(s.weekday)) { warnings.push(`${label}: weekday が不正 (${s.weekday})`); return; }
-    if (!Number.isInteger(s.period) || s.period < 1 || s.period > 9) {
-      warnings.push(`${label}: period が範囲外 (${s.period})`); return;
-    }
-    if (!isValidISO(s.startDate)) { warnings.push(`${label}: startDate の形式が不正`); return; }
-    if (s.holidays && !Array.isArray(s.holidays)) { warnings.push(`${label}: holidays が配列でない`); return; }
-    const holidays = (s.holidays || []).filter(h => {
-      if (!isValidISO(h)) { warnings.push(`${label}: holidays に不正な日付 ${h}`); return false; }
-      return true;
-    });
-    validSubjects.push({
-      id:        String(s.id),
-      name:      String(s.name).slice(0, 60),
-      weekday:   s.weekday,
-      period:    s.period,
-      color:     COLOR_RE.test(s.color) ? s.color : '#5b8af0',
-      startDate: s.startDate,
-      holidays,
+  raw.subjects.forEach((s,i)=>{
+    const lb=`subjects[${i}]`;
+    if(!s.id||!s.name)                          {warnings.push(`${lb}: id/name不正`);return;}
+    if(!WDAY.has(s.weekday))                    {warnings.push(`${lb}: weekday不正`);return;}
+    if(!Number.isInteger(s.period)||s.period<1) {warnings.push(`${lb}: period不正`);return;}
+    if(!isValidISO(s.startDate))                {warnings.push(`${lb}: startDate不正`);return;}
+    validS.push({
+      id:String(s.id), name:String(s.name).slice(0,60), weekday:s.weekday,
+      period:s.period, color:COLOR_RE.test(s.color)?s.color:'#5b8af0',
+      startDate:s.startDate,
+      holidays:(s.holidays||[]).filter(h=>{if(!isValidISO(h)){warnings.push(`${lb}: holiday不正 ${h}`);return false;}return true;}),
     });
   });
-
-  // Validate exams
-  const validExams = [];
-  raw.exams.forEach((e, i) => {
-    const label = `exams[${i}]`;
-    if (!e.id || typeof e.id !== 'string') { warnings.push(`${label}: id が不正`); return; }
-    if (!TYPE_SET.has(e.type)) { warnings.push(`${label}: type が不正 (${e.type})`); return; }
-    if (!isValidISO(e.date)) { warnings.push(`${label}: date の形式が不正`); return; }
-    if (e.startTime && !isValidTime(e.startTime)) { warnings.push(`${label}: startTime の形式が不正`); return; }
-    if (e.endTime   && !isValidTime(e.endTime))   { warnings.push(`${label}: endTime の形式が不正`); return; }
-    validExams.push({
-      id:        String(e.id),
-      subjectId: String(e.subjectId || ''),
-      type:      e.type,
-      date:      e.date,
-      ...(e.startTime && { startTime: e.startTime }),
-      ...(e.endTime   && { endTime:   e.endTime   }),
-      ...(e.room      && { room:  String(e.room).slice(0, 40) }),
-      ...(e.note      && { note:  String(e.note).slice(0, 300) }),
+  raw.exams.forEach((e,i)=>{
+    const lb=`exams[${i}]`;
+    if(!e.id||!TYPE.has(e.type)||!isValidISO(e.date)){warnings.push(`${lb}: 必須フィールド不正`);return;}
+    if(e.startTime&&!isValidTime(e.startTime)){warnings.push(`${lb}: startTime不正`);return;}
+    if(e.endTime  &&!isValidTime(e.endTime))  {warnings.push(`${lb}: endTime不正`);return;}
+    validE.push({
+      id:String(e.id), subjectId:String(e.subjectId||''), type:e.type, date:e.date,
+      ...(e.startTime&&{startTime:e.startTime}), ...(e.endTime&&{endTime:e.endTime}),
+      ...(e.room&&{room:String(e.room).slice(0,40)}),
+      ...(e.note&&{note:String(e.note).slice(0,300)}),
     });
   });
-
-  return { valid: true, subjects: validSubjects, exams: validExams, warnings, fatalErrors };
+  return{valid:true,subjects:validS,exams:validE,warnings,fatalErrors};
 }
 
-function confirmImport(mode) {
-  if (!pendingImport) return;
+function confirmImport(mode){
+  if(!pendingImport) return;
   loadAll();
-
-  let newSubjects, newExams;
-
-  if (mode === 'overwrite') {
-    newSubjects = pendingImport.subjects;
-    newExams    = pendingImport.exams;
+  let ns,ne;
+  if(mode==='overwrite'){
+    ns=pendingImport.subjects; ne=pendingImport.exams;
   } else {
-    // Merge: existing data + new (new wins on ID conflict)
-    const subMap = new Map(subjects.map(s => [s.id, s]));
-    pendingImport.subjects.forEach(s => subMap.set(s.id, s));
-    newSubjects = [...subMap.values()];
-
-    const exMap = new Map(exams.map(e => [e.id, e]));
-    pendingImport.exams.forEach(e => exMap.set(e.id, e));
-    newExams = [...exMap.values()];
+    const sm=new Map(subjects.map(s=>[s.id,s]));
+    pendingImport.subjects.forEach(s=>sm.set(s.id,s));
+    ns=[...sm.values()];
+    const em=new Map(exams.map(e=>[e.id,e]));
+    pendingImport.exams.forEach(e=>em.set(e.id,e));
+    ne=[...em.values()];
   }
-
-  localStorage.setItem(KEYS.SUBJECTS, JSON.stringify(newSubjects));
-  localStorage.setItem(KEYS.EXAMS,    JSON.stringify(newExams));
-  loadAll();
-
-  pendingImport = null;
-  closeModal('importModal');
-
-  const label = mode === 'overwrite' ? '上書き' : 'マージ';
-  showToast(`${label}完了: 授業${newSubjects.length}件 / テスト${newExams.length}件 ✓`, 'success');
-
-  renderTimetable();
+  localStorage.setItem(KEYS.SUBJECTS,JSON.stringify(ns));
+  localStorage.setItem(KEYS.EXAMS,   JSON.stringify(ne));
+  loadAll(); pendingImport=null; closeModal('importModal');
+  showToast(`${mode==='overwrite'?'上書き':'マージ'}完了: 授業${ns.length}件 / テスト${ne.length}件 ✓`,'success');
+  renderHome();
 }
 
-// ============================================================
-// Modal helpers
-// ============================================================
-function openModal(id) {
-  document.getElementById(id).classList.add('active');
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('active');
-}
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeModal(overlay.id);
-  });
+function openModal(id)  { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',e=>{ if(e.target===o) closeModal(o.id); });
 });
 
 // ============================================================
 // Toast
 // ============================================================
-let _toastTimer = null;
-function showToast(msg, type = '') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className   = `toast ${type} show`;
-  clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+let _tt=null;
+function showToast(msg,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className=`toast ${type} show`;
+  clearTimeout(_tt); _tt=setTimeout(()=>el.classList.remove('show'),2800);
 }
 
 // ============================================================
-// Sample data (for empty state demo)
+// Default data
 // ============================================================
-// ============================================================
-// Default schedule data (from course timetable)
-// ============================================================
-const DEFAULT_SUBJECTS = [
-  { id:'sub-1', name:'半導体工学',               weekday:'月', period:4, color:'#5b8af0', startDate:'2026-04-06', holidays:[] },
-  { id:'sub-2', name:'電気回路II',               weekday:'火', period:2, color:'#3ecf8e', startDate:'2026-04-07', holidays:[] },
-  { id:'sub-3', name:'コンピュータアーキテクチャI', weekday:'月', period:3, color:'#f0c46b', startDate:'2026-04-06', holidays:[] },
-  { id:'sub-4', name:'電磁気学I',                weekday:'木', period:5, color:'#c97af0', startDate:'2026-04-09', holidays:[] },
-  { id:'sub-5', name:'ベクトル解析',              weekday:'金', period:2, color:'#f07a5b', startDate:'2026-04-10', holidays:[] },
-  { id:'sub-6', name:'データ構造とアルゴリズム',   weekday:'火', period:5, color:'#60c8f0', startDate:'2026-04-07', holidays:[] },
-  { id:'sub-7', name:'ハードウェア記述言語',       weekday:'月', period:2, color:'#e87af0', startDate:'2026-04-06', holidays:[] },
+const DEFAULT_SUBJECTS=[
+  {id:'sub-1',name:'半導体工学',               weekday:'月',period:4,color:'#5b8af0',startDate:'2026-04-06',holidays:[]},
+  {id:'sub-2',name:'電気回路II',               weekday:'火',period:2,color:'#3ecf8e',startDate:'2026-04-07',holidays:[]},
+  {id:'sub-3',name:'コンピュータアーキテクチャI',weekday:'月',period:3,color:'#f0c46b',startDate:'2026-04-06',holidays:[]},
+  {id:'sub-4',name:'電磁気学I',                weekday:'木',period:5,color:'#c97af0',startDate:'2026-04-09',holidays:[]},
+  {id:'sub-5',name:'ベクトル解析',              weekday:'金',period:2,color:'#f07a5b',startDate:'2026-04-10',holidays:[]},
+  {id:'sub-6',name:'データ構造とアルゴリズム',   weekday:'火',period:5,color:'#60c8f0',startDate:'2026-04-07',holidays:[]},
+  {id:'sub-7',name:'ハードウェア記述言語',       weekday:'月',period:2,color:'#e87af0',startDate:'2026-04-06',holidays:[]},
+];
+const DEFAULT_EXAMS=[
+  {id:'ex-01',subjectId:'sub-1',type:'小テスト',  date:'2026-05-11',note:'第1回小テスト'},
+  {id:'ex-02',subjectId:'sub-2',type:'中間テスト', date:'2026-05-12',note:'中間テスト(1)'},
+  {id:'ex-03',subjectId:'sub-3',type:'中間テスト', date:'2026-05-13',note:'中間テスト（補講日程）'},
+  {id:'ex-04',subjectId:'sub-3',type:'中間テスト', date:'2026-05-18',note:'中間テスト'},
+  {id:'ex-05',subjectId:'sub-3',type:'中間テスト', date:'2026-05-25',note:'中間テスト'},
+  {id:'ex-06',subjectId:'sub-4',type:'小テスト',  date:'2026-05-28',note:'中間小テスト・授業冒頭30分'},
+  {id:'ex-07',subjectId:'sub-5',type:'中間テスト', date:'2026-05-29',note:'中間テスト'},
+  {id:'ex-08',subjectId:'sub-6',type:'中間テスト', date:'2026-06-02',note:'中間テスト及びその解説'},
+  {id:'ex-09',subjectId:'sub-1',type:'小テスト',  date:'2026-06-08',note:'第2回小テスト'},
+  {id:'ex-10',subjectId:'sub-2',type:'中間テスト', date:'2026-06-16',note:'中間テスト(2)・試験後講義あり'},
+  {id:'ex-11',subjectId:'sub-1',type:'小テスト',  date:'2026-07-06',note:'第3回小テスト'},
+  {id:'ex-12',subjectId:'sub-7',type:'小テスト',  date:'2026-07-06',note:'小テスト・解説'},
+  {id:'ex-13',subjectId:'sub-4',type:'定期テスト', date:'2026-07-09',note:'最終確認テスト及び解説等'},
+  {id:'ex-14',subjectId:'sub-5',type:'期末テスト', date:'2026-07-10',note:'最終講義日試験'},
+  {id:'ex-15',subjectId:'sub-3',type:'期末テスト', date:'2026-07-13',note:'期末テスト'},
+  {id:'ex-16',subjectId:'sub-1',type:'定期テスト', date:'2026-07-13',note:'到達度確認テスト'},
+  {id:'ex-17',subjectId:'sub-2',type:'定期テスト', date:'2026-07-14',note:'到達度確認テスト'},
+  {id:'ex-18',subjectId:'sub-6',type:'小テスト',  date:'2026-07-14',note:'確認テスト及びその解説'},
 ];
 
-const DEFAULT_EXAMS = [
-  // 5月
-  { id:'ex-01', subjectId:'sub-1', type:'小テスト',   date:'2026-05-11', note:'第1回小テスト' },
-  { id:'ex-02', subjectId:'sub-2', type:'中間テスト',  date:'2026-05-12', note:'中間テスト(1)' },
-  { id:'ex-03', subjectId:'sub-3', type:'中間テスト',  date:'2026-05-13', note:'中間テスト（補講日程）' },
-  { id:'ex-04', subjectId:'sub-3', type:'中間テスト',  date:'2026-05-18', note:'中間テスト' },
-  { id:'ex-05', subjectId:'sub-3', type:'中間テスト',  date:'2026-05-25', note:'中間テスト' },
-  { id:'ex-06', subjectId:'sub-4', type:'小テスト',   date:'2026-05-28', note:'中間小テスト・授業冒頭30分' },
-  { id:'ex-07', subjectId:'sub-5', type:'中間テスト',  date:'2026-05-29', note:'中間テスト' },
-  // 6月
-  { id:'ex-08', subjectId:'sub-6', type:'中間テスト',  date:'2026-06-02', note:'中間テスト及びその解説' },
-  { id:'ex-09', subjectId:'sub-1', type:'小テスト',   date:'2026-06-08', note:'第2回小テスト' },
-  { id:'ex-10', subjectId:'sub-2', type:'中間テスト',  date:'2026-06-16', note:'中間テスト(2)・試験後講義あり' },
-  // 7月
-  { id:'ex-11', subjectId:'sub-1', type:'小テスト',   date:'2026-07-06', note:'第3回小テスト' },
-  { id:'ex-12', subjectId:'sub-7', type:'小テスト',   date:'2026-07-06', note:'小テスト・解説' },
-  { id:'ex-13', subjectId:'sub-4', type:'定期テスト',  date:'2026-07-09', note:'最終確認テスト及び解説等' },
-  { id:'ex-14', subjectId:'sub-5', type:'期末テスト',  date:'2026-07-10', note:'最終講義日試験' },
-  { id:'ex-15', subjectId:'sub-3', type:'期末テスト',  date:'2026-07-13', note:'期末テスト' },
-  { id:'ex-16', subjectId:'sub-1', type:'定期テスト',  date:'2026-07-13', note:'到達度確認テスト' },
-  { id:'ex-17', subjectId:'sub-2', type:'定期テスト',  date:'2026-07-14', note:'到達度確認テスト' },
-  { id:'ex-18', subjectId:'sub-6', type:'小テスト',   date:'2026-07-14', note:'確認テスト及びその解説' },
-];
-
-function loadSampleData() {
-  if (!confirm('時間割データを読み込みます。既存データがある場合は上書きされます。')) return;
-  applyDefaultData();
-  showToast('時間割データを読み込みました ✓', 'success');
-}
-
-function applyDefaultData() {
-  localStorage.setItem(KEYS.SUBJECTS, JSON.stringify(DEFAULT_SUBJECTS));
-  localStorage.setItem(KEYS.EXAMS,    JSON.stringify(DEFAULT_EXAMS));
-  loadAll();
-  renderTimetable();
-}
-
 // ============================================================
-// Boot — auto-initialize with default data on first open
+// Boot
 // ============================================================
 loadAll();
-const _isFirstOpen = subjects.length === 0 && exams.length === 0;
-if (_isFirstOpen) {
-  localStorage.setItem(KEYS.SUBJECTS, JSON.stringify(DEFAULT_SUBJECTS));
-  localStorage.setItem(KEYS.EXAMS,    JSON.stringify(DEFAULT_EXAMS));
+if(!subjects.length && !exams.length){
+  localStorage.setItem(KEYS.SUBJECTS,JSON.stringify(DEFAULT_SUBJECTS));
+  localStorage.setItem(KEYS.EXAMS,   JSON.stringify(DEFAULT_EXAMS));
   loadAll();
 }
-navigate('timetable');
+navigate('home');
 </script>
 </body>
 </html>
