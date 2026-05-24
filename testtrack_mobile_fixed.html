@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TestTrack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg:#0c0e14;--surface:#141720;--surface2:#1c2030;--surface3:#242840;
+  --border:#2a2f45;--border2:#353b55;--text:#dde1f0;--muted:#6b7291;
+  --accent:#5b8af0;--accent2:#3d6fe0;--accent-bg:rgba(91,138,240,.12);--accent-glow:rgba(91,138,240,.28);
+  --green:#3ecf8e;--red:#f06b6b;--red-bg:rgba(240,107,107,.1);
+  --yellow:#f0c46b;--yellow-bg:rgba(240,196,107,.1);
+  --r:6px;--r-md:10px;--shadow:0 8px 32px rgba(0,0,0,.5);--trans:160ms cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;}
+body{background:var(--bg);color:var(--text);font-family:"Zen Kaku Gothic New",sans-serif;min-height:100dvh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 900px 500px at 10% 0%,rgba(91,138,240,.07),transparent 70%),radial-gradient(ellipse 500px 400px at 88% 90%,rgba(62,207,142,.05),transparent 70%);}
+.page{position:relative;z-index:1;display:none;}.page.active{display:block;}
+.hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:16px 12px 10px;max-width:1100px;margin:0 auto;}
+.back-btn{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;flex-shrink:0;border:1px solid var(--border2);background:var(--surface);color:var(--muted);font-size:16px;cursor:pointer;transition:var(--trans);}
+.back-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--accent);}
+.hd-title{font-family:"Kaisei Decol",serif;font-size:19px;font-weight:700;letter-spacing:.02em;}
+.hd-title span{color:var(--accent);}
+.hd-right{margin-left:auto;display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:4px;padding:7px 12px;border-radius:var(--r);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:var(--trans);border:none;outline:none;letter-spacing:.02em;white-space:nowrap;}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 4px 14px rgba(91,138,240,.35);}
+.btn-primary:hover{background:var(--accent2);}
+.btn-ghost{background:var(--surface2);border:1px solid var(--border2);color:var(--muted);}
+.btn-ghost:hover{color:var(--text);background:var(--surface3);}
+.btn-danger{background:var(--red-bg);border:1px solid var(--red);color:var(--red);}
+.btn-danger:hover{background:var(--red);color:#fff;}
+.btn-sm{padding:5px 10px;font-size:11px;}
+
+/* HOME */
+.home-wrap{max-width:720px;margin:0 auto;padding:0 12px 80px;}
+.stats-bar{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.stat-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);font-size:11px;font-family:"JetBrains Mono",monospace;}
+.stat-pill .v{color:var(--text);font-weight:700;}.stat-pill .l{color:var(--muted);}
+.section-lbl{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.section-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+.date-group{margin-bottom:12px;}
+.date-hd{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.date-lbl{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;}
+.day-badge{font-size:10px;font-family:"JetBrains Mono",monospace;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:auto;}
+.day-badge.today{background:rgba(91,138,240,.2);border:1px solid rgba(91,138,240,.5);color:var(--accent);}
+.day-badge.soon{background:rgba(240,107,107,.15);border:1px solid rgba(240,107,107,.4);color:var(--red);}
+.day-badge.week{background:rgba(240,196,107,.12);border:1px solid rgba(240,196,107,.4);color:var(--yellow);}
+.day-badge.normal{background:var(--surface2);border:1px solid var(--border2);color:var(--muted);}
+.ev-card{display:flex;align-items:stretch;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--border);background:var(--surface);margin-bottom:5px;animation:fadeUp .2s ease both;}
+.ev-bar{width:4px;flex-shrink:0;background:var(--sc,var(--accent));}
+.ev-body{flex:1;padding:9px 12px;display:flex;align-items:center;gap:9px;min-width:0;}
+.ev-type{font-size:10px;padding:2px 7px;border-radius:999px;font-family:"JetBrains Mono",monospace;font-weight:500;flex-shrink:0;white-space:nowrap;}
+.ev-type.中間テスト{background:rgba(91,138,240,.2);border:1px solid rgba(91,138,240,.4);color:#5b8af0;}
+.ev-type.期末テスト{background:rgba(240,107,107,.2);border:1px solid rgba(240,107,107,.4);color:#f06b6b;}
+.ev-type.小テスト{background:rgba(62,207,142,.2);border:1px solid rgba(62,207,142,.4);color:#3ecf8e;}
+.ev-type.定期テスト{background:rgba(240,196,107,.2);border:1px solid rgba(240,196,107,.4);color:#f0c46b;}
+.ev-info{flex:1;min-width:0;}
+.ev-subject{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ev-meta{font-size:10px;color:var(--muted);margin-top:2px;font-family:"JetBrains Mono",monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.toggle-btn{width:100%;padding:9px;text-align:center;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-md);color:var(--muted);font-size:12px;cursor:pointer;transition:var(--trans);font-family:inherit;margin-top:7px;}
+.toggle-btn:hover{background:var(--surface3);color:var(--text);}
+.past-wrap{margin-top:10px;opacity:.55;}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);line-height:2;}
+.empty-icon{font-size:40px;margin-bottom:12px;}
+.empty-title{font-family:"Kaisei Decol",serif;font-size:17px;color:var(--text);margin-bottom:8px;}
+
+/* ═══ SELECT / TIMETABLE — mobile-first ═══ */
+.select-wrap{padding:0 0 80px;}
+.hint-bar{font-size:12px;color:var(--muted);margin:0 8px 10px;padding:8px 12px;background:var(--accent-bg);border:1px solid var(--accent-glow);border-radius:var(--r);}
+
+/* grid container: fills full width, no horizontal scroll */
+.tt-scroll{width:100%;overflow:hidden;}
+.tt-grid{
+  display:grid;
+  /* period label col + 5 day cols, each taking equal share of remaining space */
+  grid-template-columns:28px repeat(5,minmax(0,1fr));
+  gap:3px;
+  width:100%;
+  padding:0 8px;
+}
+.tt-head{
+  text-align:center;padding:6px 2px 5px;font-size:11px;font-weight:700;
+  border-radius:var(--r);border-bottom:2px solid var(--c,var(--border2));
+  color:var(--c,var(--muted));background:var(--cbg,var(--surface2));
+}
+.tt-head .wd{font-size:15px;display:block;}
+.tt-period{
+  display:flex;align-items:center;justify-content:center;
+  font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted);
+  padding:0;
+}
+.tt-cell{
+  border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface2);
+  min-height:68px;position:relative;overflow:hidden;
+  transition:border-color var(--trans),background var(--trans);
+}
+.tt-cell.empty{
+  background:rgba(255,255,255,.02);border:1px dashed var(--border);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.45;
+}
+.tt-cell.empty:hover,.tt-cell.empty:active{opacity:1;border-color:var(--accent);background:var(--accent-bg);}
+.tt-cell.empty .add-hint{font-size:16px;color:var(--muted);}
+.tt-cell.empty:hover .add-hint,.tt-cell.empty:active .add-hint{color:var(--accent);}
+.tt-cell.has-sub{cursor:pointer;border-color:var(--sc,var(--accent));background:var(--surface);}
+.tt-cell.has-sub::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--sc,var(--accent));}
+.tt-cell.has-sub:active{background:var(--surface3);}
+.ci{padding:5px 4px 5px 7px;height:100%;display:flex;flex-direction:column;gap:2px;}
+.ci-name{
+  font-size:10px;font-weight:700;line-height:1.25;
+  /* clamp to 3 lines */
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.ci-badge{
+  margin-top:auto;display:inline-flex;align-items:center;
+  font-size:9px;font-family:"JetBrains Mono",monospace;
+  padding:1px 5px;border-radius:999px;
+  background:var(--scbg,var(--accent-bg));
+  border:1px solid var(--scbd,var(--accent-glow));
+  color:var(--sc,var(--accent));width:fit-content;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;
+}
+.exam-dot{position:absolute;top:5px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--yellow);}
+
+/* MANAGE */
+.manage-wrap{max-width:700px;margin:0 auto;padding:0 12px 80px;}
+.sub-card{background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--sc,var(--accent));border-radius:var(--r-md);padding:12px 14px;margin-bottom:16px;display:flex;flex-direction:column;gap:10px;}
+.sub-card-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sub-card-name{font-size:16px;font-weight:700;}
+.sub-card-meta{font-size:11px;color:var(--muted);margin-top:2px;font-family:"JetBrains Mono",monospace;}
+.sub-card-badge{font-size:11px;padding:3px 10px;border-radius:999px;background:var(--accent-bg);border:1px solid var(--accent-glow);color:var(--accent);font-family:"JetBrains Mono",monospace;flex-shrink:0;}
+.sub-card-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;margin-bottom:12px;}
+.panel-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.panel-title::before{content:'';display:inline-block;width:3px;height:13px;background:var(--accent);border-radius:2px;}
+.panel-title-right{margin-left:auto;font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0;}
+.manage-list{display:flex;flex-direction:column;gap:7px;}
+.mc{border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface2);overflow:hidden;transition:border-color var(--trans);animation:fadeUp .2s ease both;}
+.mc.editing{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-glow);}
+.mc-top{display:flex;align-items:center;gap:8px;padding:10px 12px;flex-wrap:wrap;}
+.mc-type{font-size:10px;padding:2px 7px;border-radius:999px;flex-shrink:0;font-family:"JetBrains Mono",monospace;font-weight:500;white-space:nowrap;}
+.mc-type.中間テスト{background:rgba(91,138,240,.2);border:1px solid rgba(91,138,240,.4);color:#5b8af0;}
+.mc-type.期末テスト{background:rgba(240,107,107,.2);border:1px solid rgba(240,107,107,.4);color:#f06b6b;}
+.mc-type.小テスト{background:rgba(62,207,142,.2);border:1px solid rgba(62,207,142,.4);color:#3ecf8e;}
+.mc-type.定期テスト{background:rgba(240,196,107,.2);border:1px solid rgba(240,196,107,.4);color:#f0c46b;}
+.mc-info{flex:1;min-width:0;}
+.mc-date{font-size:12px;font-weight:700;font-family:"JetBrains Mono",monospace;}
+.mc-note{font-size:10px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mc-btns{display:flex;gap:5px;flex-shrink:0;}
+.ic-btn{padding:3px 9px;border-radius:var(--r);font-size:11px;cursor:pointer;transition:var(--trans);font-family:inherit;font-weight:600;border:1px solid transparent;}
+.ic-edit{background:var(--accent-bg);border-color:var(--accent-glow);color:var(--accent);}
+.ic-edit:hover{background:var(--accent);color:#fff;}
+.ic-del{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+.ic-del:hover{background:var(--red);color:#fff;}
+.field{margin-bottom:10px;}
+label{display:block;font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.06em;margin-bottom:4px;}
+input[type=text],input[type=date],input[type=time],textarea,select{width:100%;padding:8px 10px;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-family:inherit;font-size:13px;transition:border-color var(--trans),box-shadow var(--trans);outline:none;appearance:none;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7291' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px;}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);}
+input.err{border-color:var(--red)!important;}input.wrn{border-color:var(--yellow)!important;}
+.fmsg{font-size:11px;margin-top:3px;}.fmsg.err{color:var(--red);}.fmsg.wrn{color:var(--yellow);}
+input[type=date]::-webkit-calendar-picker-indicator,input[type=time]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer;}
+textarea{resize:vertical;min-height:56px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.type-grp{display:flex;gap:5px;flex-wrap:wrap;}
+.type-btn{padding:5px 10px;border-radius:var(--r);border:1px solid var(--border2);background:var(--surface2);color:var(--muted);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:var(--trans);}
+.type-btn:hover{background:var(--surface3);color:var(--text);}
+.type-btn.active{background:var(--accent-bg);border-color:var(--accent);color:var(--accent);}
+.form-actions{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap;align-items:center;}
+.cancel-link{font-size:12px;color:var(--muted);cursor:pointer;text-decoration:underline;margin-left:4px;}
+.edit-mode-banner{font-size:11px;color:var(--accent);background:var(--accent-bg);border:1px solid var(--accent-glow);border-radius:var(--r);padding:6px 10px;margin-bottom:10px;display:none;align-items:center;gap:6px;}
+.edit-mode-banner.visible{display:flex;}
+.color-grp{display:flex;gap:7px;flex-wrap:wrap;align-items:center;}
+.color-swatch{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:var(--trans);flex-shrink:0;}
+.color-swatch.active{border-color:#fff;box-shadow:0 0 0 2px var(--accent);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.72);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:14px;opacity:0;pointer-events:none;transition:opacity .2s ease;}
+.modal-overlay.active{opacity:1;pointer-events:all;}
+.modal-box{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r-md);padding:22px;max-width:400px;width:100%;box-shadow:var(--shadow);transform:scale(.96) translateY(8px);transition:transform .22s cubic-bezier(.34,1.36,.64,1);}
+.modal-overlay.active .modal-box{transform:scale(1) translateY(0);}
+.modal-title{font-family:"Kaisei Decol",serif;font-size:16px;margin-bottom:12px;}
+.modal-body{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:18px;}
+.modal-body strong{color:var(--text);}
+.modal-stat-row{display:flex;gap:8px;margin:10px 0;}
+.modal-stat{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:8px 12px;text-align:center;}
+.modal-stat-val{font-family:"JetBrains Mono",monospace;font-size:20px;font-weight:700;color:var(--accent);}
+.modal-stat-lbl{font-size:10px;color:var(--muted);margin-top:2px;}
+.modal-warn{background:var(--yellow-bg);border:1px solid rgba(240,196,107,.3);border-radius:var(--r);padding:8px 12px;font-size:11px;color:var(--yellow);line-height:1.6;margin-bottom:12px;}
+.modal-danger{background:var(--red-bg);border:1px solid rgba(240,107,107,.3);border-radius:var(--r);padding:8px 12px;font-size:11px;color:var(--red);line-height:1.6;margin-bottom:12px;}
+.modal-hr{border:none;border-top:1px solid var(--border);margin:0 0 14px;}
+.modal-actions{display:flex;gap:7px;flex-wrap:wrap;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface2);border:1px solid var(--border2);padding:9px 18px;border-radius:999px;font-size:12px;font-weight:500;color:var(--text);box-shadow:var(--shadow);transition:transform .3s cubic-bezier(.34,1.56,.64,1),opacity .3s ease;opacity:0;pointer-events:none;z-index:999;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast.success{border-color:var(--green);color:var(--green);}
+.toast.error{border-color:var(--red);color:var(--red);}
+.toast.warn{border-color:var(--yellow);color:var(--yellow);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+@keyframes popIn{from{opacity:0;transform:scale(.95);}to{opacity:1;transform:scale(1);}}
+.tt-cell.has-sub{animation:popIn .22s ease both;}
+</style>
+</head>
+<body>
+
+<div class="page active" id="page-home">
+  <div class="hd">
+    <h1 class="hd-title">Test<span>Track</span></h1>
+    <div class="hd-right">
+      <button class="btn btn-ghost btn-sm" onclick="exportData()">↓ 保存</button>
+      <button class="btn btn-ghost btn-sm" onclick="triggerImport()">↑ 読込</button>
+      <button class="btn btn-primary btn-sm" onclick="navigate('select')">追加・編集</button>
+    </div>
+  </div>
+  <div class="home-wrap">
+    <div class="stats-bar" id="statsBar"></div>
+    <div id="homeContent"></div>
+  </div>
+</div>
+
+<div class="page" id="page-select">
+  <div class="hd">
+    <button class="back-btn" onclick="navigate('home')">←</button>
+    <h1 class="hd-title">授業を<span>選択</span></h1>
+  </div>
+  <div class="select-wrap">
+    <div class="hint-bar">📌 授業タップ→テスト管理 ／ 空きコマタップ→授業追加</div>
+    <div class="tt-scroll"><div class="tt-grid" id="ttGrid"></div></div>
+  </div>
+</div>
+
+<div class="page" id="page-manage">
+  <div class="hd">
+    <button class="back-btn" onclick="navigate('select')">←</button>
+    <h1 class="hd-title" id="manageTitle">テスト<span>管理</span></h1>
+  </div>
+  <div class="manage-wrap">
+    <div class="sub-card" id="subCard" style="--sc:var(--accent)">
+      <div class="sub-card-row">
+        <div style="flex:1;min-width:0">
+          <div class="sub-card-name" id="subName">—</div>
+          <div class="sub-card-meta" id="subMeta">—</div>
+        </div>
+        <div class="sub-card-badge" id="subBadge">—</div>
+      </div>
+      <div class="sub-card-actions">
+        <button class="btn btn-ghost btn-sm" onclick="openEditSubjectModal()">✏️ 編集</button>
+        <button class="btn btn-danger btn-sm" onclick="openDeleteSubjectModal()">🗑 削除</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">登録済みテスト<span class="panel-title-right" id="examCountBadge"></span></div>
+      <div class="manage-list" id="manageList"></div>
+    </div>
+    <div class="panel" id="formPanel">
+      <div class="panel-title" id="formTitle">テストを追加</div>
+      <div class="edit-mode-banner" id="editBanner">✏️ 編集モード — <span id="editBannerDate"></span><span class="cancel-link" onclick="cancelEdit()" style="margin-left:auto">キャンセル</span></div>
+      <div class="field"><label>テスト種別 *</label><div class="type-grp" id="typeGrp"><button class="type-btn active" data-type="中間テスト">中間</button><button class="type-btn" data-type="期末テスト">期末</button><button class="type-btn" data-type="小テスト">小テスト</button><button class="type-btn" data-type="定期テスト">定期</button></div></div>
+      <div class="field"><label>テスト日 *</label><input type="date" id="fDate" oninput="valDate()" /><div class="fmsg" id="fDateMsg"></div></div>
+      <div class="form-row">
+        <div class="field"><label>開始時刻</label><input type="time" id="fStart" oninput="valTime()" /></div>
+        <div class="field"><label>終了時刻</label><input type="time" id="fEnd" oninput="valTime()" /><div class="fmsg" id="fTimeMsg"></div></div>
+      </div>
+      <div class="field"><label>会場・教室</label><input type="text" id="fRoom" placeholder="例: 301教室" maxlength="40" /></div>
+      <div class="field"><label>メモ</label><textarea id="fNote" placeholder="範囲・持ち物など" maxlength="300"></textarea></div>
+      <div class="form-actions">
+        <button class="btn btn-primary" id="submitBtn" onclick="submitExam()">＋ 追加する</button>
+        <button class="btn btn-ghost" onclick="navigate('select')">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="importModal">
+  <div class="modal-box">
+    <div class="modal-title">📥 データの読み込み</div>
+    <div class="modal-body">
+      <div class="modal-stat-row">
+        <div class="modal-stat"><div class="modal-stat-val" id="mSubCnt">0</div><div class="modal-stat-lbl">授業</div></div>
+        <div class="modal-stat"><div class="modal-stat-val" id="mExmCnt">0</div><div class="modal-stat-lbl">テスト</div></div>
+      </div>
+      <div class="modal-warn" id="mWarn" style="display:none"></div>
+      <hr class="modal-hr">
+      <p id="mMsg"></p>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="confirmImport('overwrite')">上書き</button>
+      <button class="btn btn-ghost" id="mMergeBtn" onclick="confirmImport('merge')">マージ</button>
+      <button class="btn btn-ghost" onclick="closeModal('importModal')">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="subjectModal">
+  <div class="modal-box">
+    <div class="modal-title" id="subjectModalTitle">📚 授業を追加</div>
+    <div class="field"><label>授業名 *</label><input type="text" id="smName" placeholder="例: 半導体工学" maxlength="60" /></div>
+    <div class="form-row">
+      <div class="field"><label>曜日 *</label><select id="smWeekday"><option value="月">月</option><option value="火">火</option><option value="水">水</option><option value="木">木</option><option value="金">金</option></select></div>
+      <div class="field"><label>時限 *</label><select id="smPeriod"><option value="1">1限</option><option value="2">2限</option><option value="3">3限</option><option value="4">4限</option><option value="5">5限</option><option value="6">6限</option></select></div>
+    </div>
+    <div class="field"><label>開始日 *</label><input type="date" id="smStartDate" /></div>
+    <div class="field"><label>カラー</label><div class="color-grp" id="smColorGrp"><div class="color-swatch active" data-color="#5b8af0" style="background:#5b8af0" onclick="pickColor(this)"></div><div class="color-swatch" data-color="#3ecf8e" style="background:#3ecf8e" onclick="pickColor(this)"></div><div class="color-swatch" data-color="#f0c46b" style="background:#f0c46b" onclick="pickColor(this)"></div><div class="color-swatch" data-color="#c97af0" style="background:#c97af0" onclick="pickColor(this)"></div><div class="color-swatch" data-color="#f07a5b" style="background:#f07a5b" onclick="pickColor(this)"></div><div class="color-swatch" data-color="#60c8f0" style="background:#60c8f0" onclick="pickColor(this)"></div><div class="color-swatch" data-color="#e87af0" style="background:#e87af0" onclick="pickColor(this)"></div><div class="color-swatch" data-color="#f0b05b" style="background:#f0b05b" onclick="pickColor(this)"></div></div></div>
+    <div id="smConflictWarn" class="modal-warn" style="display:none"></div>
+    <div class="modal-actions" style="margin-top:14px"><button class="btn btn-primary" onclick="submitSubject()">保存する</button><button class="btn btn-ghost" onclick="closeModal('subjectModal')">キャンセル</button></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="deleteSubjectModal">
+  <div class="modal-box">
+    <div class="modal-title">🗑 授業を削除しますか？</div>
+    <div class="modal-body">
+      <div class="modal-danger" id="deleteSubjectInfo"></div>
+      <p>この授業に関連する <strong id="deleteExamCount">0</strong> 件のテストも同時に削除されます。この操作は元に戻せません。</p>
+    </div>
+    <div class="modal-actions"><button class="btn btn-danger" onclick="confirmDeleteSubject()">削除する</button><button class="btn btn-ghost" onclick="closeModal('deleteSubjectModal')">キャンセル</button></div>
+  </div>
+</div>
+
+<input type="file" id="importFile" accept=".json" style="display:none" onchange="handleImport(event)" />
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+const KEYS={SUBJECTS:'exam_app:subjects',EXAMS:'exam_app:exams'};
+const WEEKDAYS=['月','火','水','木','金'];
+const JS_DAY={'月':1,'火':2,'水':3,'木':4,'金':5};
+const EXAM_TYPES=['中間テスト','期末テスト','小テスト','定期テスト'];
+const WD_COL={'月':{c:'#5b8af0',bg:'rgba(91,138,240,.1)'},'火':{c:'#3ecf8e',bg:'rgba(62,207,142,.1)'},'水':{c:'#f0c46b',bg:'rgba(240,196,107,.1)'},'木':{c:'#c97af0',bg:'rgba(201,122,240,.1)'},'金':{c:'#f07a5b',bg:'rgba(240,122,91,.1)'}};
+const ISO_RE=/^\d{4}-\d{2}-\d{2}$/,TIME_RE=/^\d{2}:\d{2}$/,COLOR_RE=/^#[0-9a-fA-F]{6}$/;
+let subjects=[],exams=[],currentSub=null,editingId=null,selectedType=EXAM_TYPES[0],showPast=false,pendingImport=null;
+let subjectModalMode='add',subjectModalEditId=null,selectedColor='#5b8af0';
+
+function loadAll(){try{subjects=JSON.parse(localStorage.getItem(KEYS.SUBJECTS)||'[]');}catch{subjects=[];}try{exams=JSON.parse(localStorage.getItem(KEYS.EXAMS)||'[]');}catch{exams=[];}}
+function save(){localStorage.setItem(KEYS.SUBJECTS,JSON.stringify(subjects));localStorage.setItem(KEYS.EXAMS,JSON.stringify(exams));}
+function genId(){return typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2)+Date.now().toString(36);}
+function pad(n){return String(n).padStart(2,'0');}
+function toISO(d){return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;}
+function todayISO(){return toISO(new Date());}
+function parseISO(iso){if(!iso)return null;const[y,m,d]=iso.split('-').map(Number);return new Date(y,m-1,d);}
+function isValidISO(s){return ISO_RE.test(s)&&!isNaN(parseISO(s));}
+function isValidTime(s){return TIME_RE.test(s);}
+function daysUntil(iso){return Math.round((parseISO(iso)-parseISO(todayISO()))/86400000);}
+function fmtDate(iso){if(!iso)return'—';const d=parseISO(iso);const w=['日','月','火','水','木','金','土'][d.getDay()];return `${d.getFullYear()}/${pad(d.getMonth()+1)}/${pad(d.getDate())}(${w})`;}
+function fmtShort(iso){if(!iso)return'—';const d=parseISO(iso);const w=['日','月','火','水','木','金','土'][d.getDay()];return `${pad(d.getMonth()+1)}/${pad(d.getDate())}(${w})`;}
+function fmtShortMini(iso){if(!iso)return'—';const d=parseISO(iso);return `${pad(d.getMonth()+1)}/${pad(d.getDate())}`;}
+function fmtTime(s,e){return s?(e?`${s}〜${e}`:s):'';}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function rgba(hex,a){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return `rgba(${r},${g},${b},${a})`;}
+function sColor(s){return(s&&s.color)||'#5b8af0';}
+
+function nextDates(s,n=1){
+  if(!s||!s.weekday)return[];
+  const td=JS_DAY[s.weekday],hs=new Set(s.holidays||[]),cur=new Date(parseISO(s.startDate||todayISO()));
+  while(cur.getDay()!==td)cur.setDate(cur.getDate()+1);
+  const r=[];let g=0;
+  while(r.length<n&&g++<1000){const iso=toISO(cur);if(!hs.has(iso))r.push(iso);cur.setDate(cur.getDate()+7);}
+  return r;
+}
+function occNum(s,date){
+  if(!s||!s.weekday)return null;
+  const td=JS_DAY[s.weekday],hs=new Set(s.holidays||[]),cur=new Date(parseISO(s.startDate));
+  while(cur.getDay()!==td)cur.setDate(cur.getDate()+1);
+  let cnt=0,g=0;
+  while(g++<2000){const iso=toISO(cur);if(!hs.has(iso))cnt++;if(iso===date)return cnt;if(iso>date)return null;cur.setDate(cur.getDate()+7);}
+  return null;
+}
+
+function navigate(route,subjectId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+route).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(route==='home')renderHome();
+  if(route==='select')renderSelect();
+  if(route==='manage')renderManage(subjectId??null);
+}
+
+function renderHome(){
+  loadAll();
+  const today=todayISO();const upcoming=exams.filter(e=>e.date>=today);
+  document.getElementById('statsBar').innerHTML=`<div class="stat-pill"><span class="v">${fmtShort(today)}</span><span class="l">今日</span></div><div class="stat-pill"><span class="v">${upcoming.length}</span><span class="l">件予定</span></div><div class="stat-pill"><span class="v">${subjects.length}</span><span class="l">科目</span></div>`;
+  const ct=document.getElementById('homeContent');
+  if(!exams.length){ct.innerHTML=`<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-title">テストが登録されていません</div><p>「追加・編集」から授業を選んで登録してください。</p></div>`;return;}
+  const future=exams.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
+  const past=exams.filter(e=>e.date<today).sort((a,b)=>b.date.localeCompare(a.date));
+  let html='';
+  if(future.length)html+=`<div><div class="section-lbl">今後のテスト</div>${buildGroups(future,false)}</div>`;
+  else html+=`<div><div class="section-lbl">今後のテスト</div><div style="color:var(--muted);font-size:12px;text-align:center;padding:28px 0;">予定はありません</div></div>`;
+  if(past.length)html+=`<button class="toggle-btn" onclick="togglePast()">${showPast?'▲':'▼'} 過去のテスト（${past.length}件）</button><div class="past-wrap" id="pastWrap" style="display:${showPast?'block':'none'}"><div class="section-lbl" style="margin-top:12px">過去のテスト</div>${buildGroups(past,true)}</div>`;
+  ct.innerHTML=html;
+  ct.querySelectorAll('.ev-card').forEach((el,i)=>{el.style.animationDelay=`${i*14}ms`;});
+}
+function buildGroups(list,isPast){
+  const groups={};list.forEach(e=>(groups[e.date]=groups[e.date]||[]).push(e));
+  return Object.entries(groups).map(([date,grp])=>{
+    const d=daysUntil(date);let bc,bt;
+    if(isPast){bc='normal';bt=`${Math.abs(d)}日前`;}
+    else if(d===0){bc='today';bt='今日';}
+    else if(d<=3){bc='soon';bt=`あと${d}日`;}
+    else if(d<=7){bc='week';bt=`あと${d}日`;}
+    else{bc='normal';bt=`あと${d}日`;}
+    const rows=grp.map((e,i)=>{
+      const s=subjects.find(s=>s.id===e.subjectId);const col=sColor(s);
+      const meta=[s?`${s.weekday} ${s.period}限`:'',fmtTime(e.startTime,e.endTime),e.room||'',e.note||''].filter(Boolean).join('　');
+      return `<div class="ev-card" style="--sc:${esc(col)};animation-delay:${i*12}ms"><div class="ev-bar"></div><div class="ev-body"><span class="ev-type ${esc(e.type)}">${esc(e.type)}</span><div class="ev-info"><div class="ev-subject">${s?esc(s.name):'(削除済み)'}</div>${meta?`<div class="ev-meta">${esc(meta)}</div>`:''}</div></div></div>`;
+    }).join('');
+    return `<div class="date-group"><div class="date-hd"><span class="date-lbl">${fmtDate(date)}</span><span class="day-badge ${bc}">${bt}</span></div>${rows}</div>`;
+  }).join('');
+}
+function togglePast(){
+  showPast=!showPast;
+  const w=document.getElementById('pastWrap');if(w)w.style.display=showPast?'block':'none';
+  const b=document.querySelector('.toggle-btn');if(b){const c=exams.filter(e=>e.date<todayISO()).length;b.textContent=`${showPast?'▲':'▼'} 過去のテスト（${c}件）`;}
+}
+
+function renderSelect(){
+  loadAll();
+  const grid=document.getElementById('ttGrid');
+  const maxP=Math.max(...subjects.map(s=>s.period),5);
+  const lk={};subjects.forEach(s=>(lk[s.weekday]=lk[s.weekday]||{})[s.period]=s);
+  const today=todayISO();
+  const nxMap={};exams.filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date)).forEach(e=>{if(!nxMap[e.subjectId])nxMap[e.subjectId]=e;});
+  const hasExam=new Set(exams.map(e=>e.subjectId));
+
+  let h='<div></div>';
+  WEEKDAYS.forEach(wd=>{
+    const c=WD_COL[wd];
+    h+=`<div class="tt-head" style="--c:${c.c};--cbg:${c.bg}"><span class="wd">${wd}</span></div>`;
+  });
+  for(let pd=1;pd<=maxP;pd++){
+    h+=`<div class="tt-period">${pd}</div>`;
+    WEEKDAYS.forEach(wd=>{
+      const s=lk[wd]?.[pd];
+      if(!s){h+=`<div class="tt-cell empty" onclick="openAddSubjectModal('${wd}',${pd})"><span class="add-hint">＋</span></div>`;return;}
+      const col=sColor(s);const cbg=rgba(col,.12),cbd=rgba(col,.35);
+      const nd=nextDates(s,1);const nDate=nd[0]||null;
+      const nx=nxMap[s.id];
+      h+=`<div class="tt-cell has-sub" style="--sc:${col};--scbg:${cbg};--scbd:${cbd}" onclick="navigate('manage','${esc(s.id)}')">${hasExam.has(s.id)?'<div class="exam-dot"></div>':''}<div class="ci"><div class="ci-name">${esc(s.name)}</div>${nx?`<div class="ci-badge">📝${fmtShortMini(nx.date)}</div>`:nDate?`<div class="ci-badge">次${fmtShortMini(nDate)}</div>`:''}</div></div>`;
+    });
+  }
+  grid.innerHTML=h;
+  grid.querySelectorAll('.tt-cell.has-sub').forEach((el,i)=>{el.style.animationDelay=`${i*18}ms`;});
+}
+
+document.getElementById('typeGrp').addEventListener('click',e=>{
+  const b=e.target.closest('.type-btn');if(!b)return;
+  document.querySelectorAll('.type-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');selectedType=b.dataset.type;
+});
+
+function renderManage(subjectId){
+  loadAll();cancelEdit();currentSub=subjectId;
+  const s=subjectId?subjects.find(x=>x.id===subjectId):null;
+  const col=sColor(s);
+  document.getElementById('subCard').style.setProperty('--sc',col);
+  document.getElementById('subName').textContent=s?s.name:'(授業不明)';
+  document.getElementById('subMeta').textContent=s?`${s.weekday}曜 ${s.period}限 ／ 開始: ${fmtDate(s.startDate)}`:'';
+  document.getElementById('subBadge').textContent=s?`${s.weekday} ${s.period}限`:'—';
+  document.getElementById('manageTitle').innerHTML=`${s?esc(s.name):'テスト'}<span>管理</span>`;
+  if(s){const nd=nextDates(s,1);if(nd[0])document.getElementById('fDate').value=nd[0];}
+  renderManageList();
+}
+function renderManageList(){
+  const list=document.getElementById('manageList');
+  const badge=document.getElementById('examCountBadge');
+  const all=currentSub?exams.filter(e=>e.subjectId===currentSub):[...exams];
+  all.sort((a,b)=>a.date.localeCompare(b.date));
+  badge.textContent=all.length?`${all.length}件`:'';
+  if(!all.length){list.innerHTML=`<div style="color:var(--muted);font-size:12px;text-align:center;padding:16px 0;">まだ登録がありません</div>`;return;}
+  const today=todayISO();
+  list.innerHTML=all.map((e,i)=>{
+    const isPast=e.date<today;
+    const time=fmtTime(e.startTime,e.endTime);
+    const note=[time,e.room?esc(e.room):'',e.note?esc(e.note):''].filter(Boolean).join(' ／ ');
+    const isEditing=editingId===e.id;
+    return `<div class="mc${isEditing?' editing':''}" style="${isPast?'opacity:.6':''}"><div class="mc-top"><span class="mc-type ${esc(e.type)}">${esc(e.type)}</span><div class="mc-info"><div class="mc-date">${fmtDate(e.date)}${isPast?' <span style="color:var(--muted);font-size:10px">済</span>':''}</div>${note?`<div class="mc-note">${note}</div>`:''}</div><div class="mc-btns"><button class="ic-btn ic-edit" onclick="startEdit('${esc(e.id)}')">編集</button><button class="ic-btn ic-del" onclick="deleteExam('${esc(e.id)}')">削除</button></div></div></div>`;
+  }).join('');
+  list.querySelectorAll('.mc').forEach((el,i)=>{el.style.animationDelay=`${i*12}ms`;});
+}
+function startEdit(id){
+  const e=exams.find(x=>x.id===id);if(!e)return;
+  editingId=id;setType(e.type);
+  document.getElementById('fDate').value=e.date||'';
+  document.getElementById('fStart').value=e.startTime||'';
+  document.getElementById('fEnd').value=e.endTime||'';
+  document.getElementById('fRoom').value=e.room||'';
+  document.getElementById('fNote').value=e.note||'';
+  const banner=document.getElementById('editBanner');banner.classList.add('visible');
+  document.getElementById('editBannerDate').textContent=fmtDate(e.date);
+  document.getElementById('submitBtn').textContent='✓ 更新する';
+  document.getElementById('formTitle').textContent='テストを編集';
+  document.getElementById('formPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  renderManageList();
+}
+function cancelEdit(){
+  editingId=null;
+  document.getElementById('editBanner')?.classList.remove('visible');
+  const sb=document.getElementById('submitBtn');if(sb)sb.textContent='＋ 追加する';
+  const ft=document.getElementById('formTitle');if(ft)ft.textContent='テストを追加';
+  clearFormMsgs();
+  ['fDate','fStart','fEnd','fRoom'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const fn=document.getElementById('fNote');if(fn)fn.value='';
+  setType(EXAM_TYPES[0]);
+  if(currentSub){const s=subjects.find(s=>s.id===currentSub);if(s){const nd=nextDates(s,1);if(nd[0])document.getElementById('fDate').value=nd[0];}}
+  renderManageList();
+}
+function setType(t){document.querySelectorAll('.type-btn').forEach(b=>b.classList.toggle('active',b.dataset.type===t));selectedType=t;}
+function submitExam(){
+  const date=document.getElementById('fDate').value,start=document.getElementById('fStart').value,end=document.getElementById('fEnd').value;
+  clearFormMsgs();
+  if(!date){document.getElementById('fDate').classList.add('err');setFMsg('fDateMsg','テスト日は必須です','err');return;}
+  if(end&&!start){document.getElementById('fStart').classList.add('err');setFMsg('fTimeMsg','開始時刻を入力してください','err');return;}
+  if(start&&end&&start>=end){document.getElementById('fEnd').classList.add('wrn');setFMsg('fTimeMsg','⚠ 終了が開始以前','wrn');}
+  if(editingId){
+    const idx=exams.findIndex(e=>e.id===editingId);if(idx<0)return;
+    exams[idx]={...exams[idx],type:selectedType,date,...(start?{startTime:start}:{startTime:undefined}),...(end?{endTime:end}:{endTime:undefined}),...(document.getElementById('fRoom').value.trim()?{room:document.getElementById('fRoom').value.trim()}:{room:undefined}),...(document.getElementById('fNote').value.trim()?{note:document.getElementById('fNote').value.trim()}:{note:undefined})};
+    Object.keys(exams[idx]).forEach(k=>exams[idx][k]===undefined&&delete exams[idx][k]);
+    save();showToast('テストを更新しました ✓','success');cancelEdit();
+  }else{
+    const isDup=exams.some(e=>e.subjectId===(currentSub||'')&&e.date===date&&e.type===selectedType);
+    if(isDup&&!confirm('同じ授業・日付・種別がすでに存在します。重複追加しますか？'))return;
+    exams.push({id:genId(),subjectId:currentSub||'',type:selectedType,date,...(start&&{startTime:start}),...(end&&{endTime:end}),...(document.getElementById('fRoom').value.trim()&&{room:document.getElementById('fRoom').value.trim()}),...(document.getElementById('fNote').value.trim()&&{note:document.getElementById('fNote').value.trim().slice(0,300)})});
+    save();['fStart','fEnd','fRoom'].forEach(id=>document.getElementById(id).value='');document.getElementById('fNote').value='';clearFormMsgs();showToast('テストを追加しました ✓','success');renderManageList();
+  }
+}
+function deleteExam(id){if(!confirm('このテストを削除しますか？'))return;if(editingId===id)cancelEdit();exams=exams.filter(e=>e.id!==id);save();renderManageList();showToast('削除しました');}
+function clearFormMsgs(){['fDate','fStart','fEnd'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('err','wrn');});['fDateMsg','fTimeMsg'].forEach(id=>{const el=document.getElementById(id);if(el){el.textContent='';el.className='fmsg';}});}
+function setFMsg(id,msg,cls){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className=`fmsg ${cls}`;}
+function valDate(){clearFormMsgs();const v=document.getElementById('fDate').value;if(v&&v<todayISO()){document.getElementById('fDate').classList.add('wrn');setFMsg('fDateMsg','⚠ 過去の日付','wrn');}}
+function valTime(){const s=document.getElementById('fStart').value,e=document.getElementById('fEnd').value;['fStart','fEnd'].forEach(id=>document.getElementById(id).classList.remove('err','wrn'));setFMsg('fTimeMsg','','');if(e&&!s){['fStart','fEnd'].forEach(id=>document.getElementById(id).classList.add('err'));setFMsg('fTimeMsg','開始時刻が未入力','err');}else if(s&&e&&s>=e){document.getElementById('fEnd').classList.add('wrn');setFMsg('fTimeMsg','⚠ 終了が開始以前','wrn');}}
+
+function pickColor(el){document.querySelectorAll('#smColorGrp .color-swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');selectedColor=el.dataset.color;}
+function openAddSubjectModal(wd,pd){
+  subjectModalMode='add';subjectModalEditId=null;
+  document.getElementById('subjectModalTitle').textContent='📚 授業を追加';
+  document.getElementById('smName').value='';
+  document.getElementById('smWeekday').value=wd;
+  document.getElementById('smPeriod').value=String(pd);
+  document.getElementById('smStartDate').value=todayISO();
+  document.getElementById('smConflictWarn').style.display='none';
+  pickColorByValue('#5b8af0');
+  openModal('subjectModal');
+  setTimeout(()=>document.getElementById('smName').focus(),200);
+}
+function openEditSubjectModal(){
+  const s=subjects.find(x=>x.id===currentSub);if(!s)return;
+  subjectModalMode='edit';subjectModalEditId=s.id;
+  document.getElementById('subjectModalTitle').textContent='✏️ 授業を編集';
+  document.getElementById('smName').value=s.name;
+  document.getElementById('smWeekday').value=s.weekday;
+  document.getElementById('smPeriod').value=String(s.period);
+  document.getElementById('smStartDate').value=s.startDate;
+  document.getElementById('smConflictWarn').style.display='none';
+  pickColorByValue(sColor(s));
+  openModal('subjectModal');
+  setTimeout(()=>document.getElementById('smName').focus(),200);
+}
+function pickColorByValue(color){
+  const sw=document.querySelectorAll('#smColorGrp .color-swatch');sw.forEach(s=>s.classList.remove('active'));
+  let found=false;sw.forEach(s=>{if(s.dataset.color===color){s.classList.add('active');found=true;}});
+  if(!found){sw[0].classList.add('active');selectedColor=sw[0].dataset.color;}else selectedColor=color;
+}
+function submitSubject(){
+  const name=document.getElementById('smName').value.trim();
+  const wd=document.getElementById('smWeekday').value;
+  const pd=parseInt(document.getElementById('smPeriod').value);
+  const startDate=document.getElementById('smStartDate').value;
+  const warn=document.getElementById('smConflictWarn');warn.style.display='none';
+  if(!name){document.getElementById('smName').focus();showToast('授業名を入力してください','error');return;}
+  if(!startDate||!isValidISO(startDate)){showToast('開始日を入力してください','error');return;}
+  if(subjectModalMode==='add'){
+    const conflict=subjects.find(s=>s.weekday===wd&&s.period===pd);
+    if(conflict){warn.textContent=`⚠ ${wd}曜${pd}限には「${conflict.name}」が登録済みです。`;warn.style.display='';return;}
+    const ns={id:genId(),name:name.slice(0,60),weekday:wd,period:pd,color:selectedColor,startDate,holidays:[]};
+    subjects.push(ns);save();closeModal('subjectModal');showToast(`「${name}」を追加しました ✓`,'success');navigate('manage',ns.id);
+  }else{
+    const idx=subjects.findIndex(s=>s.id===subjectModalEditId);if(idx<0)return;
+    const conflict=subjects.find(s=>s.weekday===wd&&s.period===pd&&s.id!==subjectModalEditId);
+    if(conflict){warn.textContent=`⚠ ${wd}曜${pd}限には「${conflict.name}」が登録済みです。`;warn.style.display='';return;}
+    subjects[idx]={...subjects[idx],name:name.slice(0,60),weekday:wd,period:pd,color:selectedColor,startDate};
+    save();closeModal('subjectModal');showToast(`「${name}」を更新しました ✓`,'success');renderManage(subjectModalEditId);
+  }
+}
+function openDeleteSubjectModal(){
+  const s=subjects.find(x=>x.id===currentSub);if(!s)return;
+  const cnt=exams.filter(e=>e.subjectId===currentSub).length;
+  document.getElementById('deleteSubjectInfo').textContent=`「${s.name}」（${s.weekday}曜 ${s.period}限）`;
+  document.getElementById('deleteExamCount').textContent=cnt;
+  openModal('deleteSubjectModal');
+}
+function confirmDeleteSubject(){
+  const s=subjects.find(x=>x.id===currentSub);if(!s)return;
+  const name=s.name;subjects=subjects.filter(x=>x.id!==currentSub);exams=exams.filter(e=>e.subjectId!==currentSub);
+  save();closeModal('deleteSubjectModal');showToast(`「${name}」を削除しました`,'warn');navigate('select');
+}
+
+function exportData(){
+  loadAll();const blob=new Blob([JSON.stringify({_meta:{version:2,app:'TestTrack',exportedAt:new Date().toISOString()},subjects,exams},null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`testtrack_${todayISO().replace(/-/g,'')}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  showToast(`保存: 授業${subjects.length}件/テスト${exams.length}件`,'success');
+}
+function triggerImport(){document.getElementById('importFile').value='';document.getElementById('importFile').click();}
+function handleImport(ev){
+  const file=ev.target.files[0];if(!file)return;
+  const rd=new FileReader();
+  rd.onload=e=>{
+    let raw;try{raw=JSON.parse(e.target.result);}catch{return showToast('JSON解析失敗','error');}
+    const res=validatePayload(raw);if(!res.valid)return showToast(`形式エラー: ${res.fatal[0]}`,'error');
+    pendingImport=res;loadAll();const has=subjects.length>0||exams.length>0;
+    document.getElementById('mSubCnt').textContent=res.subjects.length;document.getElementById('mExmCnt').textContent=res.exams.length;
+    const mw=document.getElementById('mWarn');if(res.warns.length){mw.style.display='';mw.textContent=`⚠ ${res.warns.length}件スキップ`;}else mw.style.display='none';
+    document.getElementById('mMsg').innerHTML=has?`現在 <strong>${subjects.length}</strong>件授業/<strong>${exams.length}</strong>件テスト`:'既存データなし。';
+    document.getElementById('mMergeBtn').style.display=has?'':'none';openModal('importModal');
+  };rd.readAsText(file);
+}
+function validatePayload(raw){
+  const fatal=[],warns=[];
+  if(!raw||typeof raw!=='object'||Array.isArray(raw))return{valid:false,fatal:['ルートがオブジェクトではありません'],warns,subjects:[],exams:[]};
+  if(!Array.isArray(raw.subjects))fatal.push('"subjects"配列が必要');if(!Array.isArray(raw.exams))fatal.push('"exams"配列が必要');
+  if(fatal.length)return{valid:false,fatal,warns,subjects:[],exams:[]};
+  const WS=new Set(WEEKDAYS),TS=new Set(EXAM_TYPES),vs=[],ve=[];
+  raw.subjects.forEach((s,i)=>{const lb=`subjects[${i}]`;if(!s.id||!s.name){warns.push(`${lb}: id/name不正`);return;}if(!WS.has(s.weekday)){warns.push(`${lb}: weekday不正`);return;}if(!Number.isInteger(s.period)||s.period<1){warns.push(`${lb}: period不正`);return;}if(!isValidISO(s.startDate)){warns.push(`${lb}: startDate不正`);return;}vs.push({id:String(s.id),name:String(s.name).slice(0,60),weekday:s.weekday,period:s.period,color:COLOR_RE.test(s.color)?s.color:'#5b8af0',startDate:s.startDate,holidays:(s.holidays||[]).filter(h=>{if(!isValidISO(h)){warns.push(`${lb}: holiday不正`);return false;}return true;})});});
+  raw.exams.forEach((e,i)=>{const lb=`exams[${i}]`;if(!e.id||!TS.has(e.type)||!isValidISO(e.date)){warns.push(`${lb}: 必須フィールド不正`);return;}if(e.startTime&&!isValidTime(e.startTime)){warns.push(`${lb}: startTime不正`);return;}if(e.endTime&&!isValidTime(e.endTime)){warns.push(`${lb}: endTime不正`);return;}ve.push({id:String(e.id),subjectId:String(e.subjectId||''),type:e.type,date:e.date,...(e.startTime&&{startTime:e.startTime}),...(e.endTime&&{endTime:e.endTime}),...(e.room&&{room:String(e.room).slice(0,40)}),...(e.note&&{note:String(e.note).slice(0,300)})});});
+  return{valid:true,subjects:vs,exams:ve,warns,fatal};
+}
+function confirmImport(mode){
+  if(!pendingImport)return;loadAll();let ns,ne;
+  if(mode==='overwrite'){ns=pendingImport.subjects;ne=pendingImport.exams;}
+  else{const sm=new Map(subjects.map(s=>[s.id,s]));pendingImport.subjects.forEach(s=>sm.set(s.id,s));ns=[...sm.values()];const em=new Map(exams.map(e=>[e.id,e]));pendingImport.exams.forEach(e=>em.set(e.id,e));ne=[...em.values()];}
+  localStorage.setItem(KEYS.SUBJECTS,JSON.stringify(ns));localStorage.setItem(KEYS.EXAMS,JSON.stringify(ne));
+  loadAll();pendingImport=null;closeModal('importModal');showToast(`${mode==='overwrite'?'上書き':'マージ'}完了 ✓`,'success');renderHome();
+}
+function openModal(id){document.getElementById(id).classList.add('active');}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeModal(o.id);}));
+let _tt=null;
+function showToast(msg,type=''){const el=document.getElementById('toast');el.textContent=msg;el.className=`toast ${type} show`;clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2800);}
+
+const DEF_S=[
+  {id:'sub-1', name:'半導体工学',               weekday:'月',period:4,color:'#5b8af0',startDate:'2026-04-06',holidays:[]},
+  {id:'sub-2', name:'電気回路II',               weekday:'火',period:2,color:'#3ecf8e',startDate:'2026-04-07',holidays:[]},
+  {id:'sub-3', name:'コンピュータアーキテクチャI',weekday:'月',period:3,color:'#f0c46b',startDate:'2026-04-06',holidays:[]},
+  {id:'sub-4', name:'電磁気学I',                weekday:'木',period:5,color:'#c97af0',startDate:'2026-04-09',holidays:[]},
+  {id:'sub-5', name:'ベクトル解析',              weekday:'金',period:2,color:'#f07a5b',startDate:'2026-04-10',holidays:[]},
+  {id:'sub-6', name:'データ構造とアルゴリズム',   weekday:'火',period:5,color:'#60c8f0',startDate:'2026-04-07',holidays:[]},
+  {id:'sub-7', name:'ハードウェア記述言語',       weekday:'木',period:4,color:'#e87af0',startDate:'2026-04-09',holidays:[]},
+  {id:'sub-8', name:'数学I（微分積分）',          weekday:'木',period:1,color:'#5b8af0',startDate:'2026-04-09',holidays:[]},
+  {id:'sub-9', name:'英語6 Discussion Skills',  weekday:'水',period:3,color:'#f0b05b',startDate:'2026-04-08',holidays:[]},
+  {id:'sub-10',name:'応用Cプログラミング',        weekday:'木',period:3,color:'#3ecf8e',startDate:'2026-04-09',holidays:[]},
+  {id:'sub-11',name:'英語5 Academic Skills',    weekday:'金',period:3,color:'#f07a5b',startDate:'2026-04-10',holidays:[]},
+  {id:'sub-12',name:'宇宙地球科学2',             weekday:'火',period:4,color:'#60c8f0',startDate:'2026-04-07',holidays:[]},
+  {id:'sub-13',name:'電子情報工学実験I',          weekday:'水',period:4,color:'#c97af0',startDate:'2026-04-08',holidays:[]},
+  {id:'sub-14',name:'電子情報工学実験I',          weekday:'水',period:5,color:'#c97af0',startDate:'2026-04-08',holidays:[]},
+  {id:'sub-15',name:'微分方程式／ラプラス変換',   weekday:'金',period:4,color:'#f0c46b',startDate:'2026-04-10',holidays:[]},
+];
+const DEF_E=[
+  {id:'ex-01',subjectId:'sub-1',type:'小テスト',  date:'2026-05-11',note:'第1回小テスト'},
+  {id:'ex-02',subjectId:'sub-2',type:'中間テスト', date:'2026-05-12',note:'中間テスト(1)'},
+  {id:'ex-03',subjectId:'sub-3',type:'中間テスト', date:'2026-05-13',note:'中間テスト（補講日程）'},
+  {id:'ex-04',subjectId:'sub-3',type:'中間テスト', date:'2026-05-18',note:'中間テスト'},
+  {id:'ex-05',subjectId:'sub-3',type:'中間テスト', date:'2026-05-25',note:'中間テスト'},
+  {id:'ex-06',subjectId:'sub-4',type:'小テスト',  date:'2026-05-28',note:'中間小テスト・授業冒頭30分'},
+  {id:'ex-07',subjectId:'sub-5',type:'中間テスト', date:'2026-05-29',note:'中間テスト'},
+  {id:'ex-08',subjectId:'sub-6',type:'中間テスト', date:'2026-06-02',note:'中間テスト及びその解説'},
+  {id:'ex-09',subjectId:'sub-1',type:'小テスト',  date:'2026-06-08',note:'第2回小テスト'},
+  {id:'ex-10',subjectId:'sub-2',type:'中間テスト', date:'2026-06-16',note:'中間テスト(2)'},
+  {id:'ex-11',subjectId:'sub-1',type:'小テスト',  date:'2026-07-06',note:'第3回小テスト'},
+  {id:'ex-12',subjectId:'sub-7',type:'小テスト',  date:'2026-07-06',note:'小テスト・解説'},
+  {id:'ex-13',subjectId:'sub-4',type:'定期テスト', date:'2026-07-09',note:'最終確認テスト'},
+  {id:'ex-14',subjectId:'sub-5',type:'期末テスト', date:'2026-07-10',note:'最終講義日試験'},
+  {id:'ex-15',subjectId:'sub-3',type:'期末テスト', date:'2026-07-13',note:'期末テスト'},
+  {id:'ex-16',subjectId:'sub-1',type:'定期テスト', date:'2026-07-13',note:'到達度確認テスト'},
+  {id:'ex-17',subjectId:'sub-2',type:'定期テスト', date:'2026-07-14',note:'到達度確認テスト'},
+  {id:'ex-18',subjectId:'sub-6',type:'小テスト',  date:'2026-07-14',note:'確認テスト及びその解説'},
+];
+
+loadAll();
+if(!subjects.length&&!exams.length){
+  localStorage.setItem(KEYS.SUBJECTS,JSON.stringify(DEF_S));
+  localStorage.setItem(KEYS.EXAMS,JSON.stringify(DEF_E));
+  loadAll();
+}
+navigate('home');
+</script>
+</body>
+</html>
