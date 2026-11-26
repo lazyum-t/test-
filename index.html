@@ -4,11 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="app-version" content="20261126-193000" />
+<meta name="app-version" content="20261126-210000" />
 <title>TestTrack</title>
 <script>
 (()=>{
-  const V="20261126-193000",SK="__ag_upd_snap__",TK="__ag_upd_try__",AK="__ag_upd_at__";
+  const V="20261126-210000",SK="__ag_upd_snap__",TK="__ag_upd_try__",AK="__ag_upd_at__";
   try{
     const u=new URL(location.href);
     if(u.searchParams.has("_v")){
@@ -124,12 +124,12 @@
   document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")check(false);});
   window.addEventListener("pageshow",(e)=>{if(e.persisted)check(true);});
   setInterval(()=>{if(pendingVer&&canReload())applyUpdate(pendingVer);},1500);
+  if("serviceWorker"in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("./sw.js",{scope:"./",updateViaCache:"none"}).catch(()=>{});},{once:true});}
 })();
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-<noscript><link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" /></noscript>
+<link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=optional" rel="stylesheet" />
 <style>
 :root {
   --bg:#0c0e14;--surface:#141720;--surface2:#1c2030;--surface3:#242840;
